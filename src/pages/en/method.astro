@@ -1,0 +1,31 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { LAST_UPDATED } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { breadcrumbSchema, articleSchema } from '../../lib/seo';
+import { helpers } from '../../lib/helpers';
+import { displayDate } from '../../lib/format';
+const lang = 'en';
+const h = helpers(lang);
+const s = (k: Parameters<typeof h.src>[0], t: string) => h.src(k, t);
+const ex = h.cost({ code: '189', adults: 1, children: 2, adultsNoEnglish: 1 });
+---
+<PageLayout title="Method: how the Australian visa cost totals are built" description="How AU Visa Costs reads the visa charges in the Migration Regulations, adds family members and second instalments, and why it shows no processing time figures." lang={lang} jsonLd={[articleSchema({ title: 'How the visa cost totals are built', description: 'Method of AU Visa Costs', path: route('method', lang), lang }), breadcrumbSchema([{ name: 'Home', path: route('home', lang) }, { name: 'Method', path: route('method', lang) }])]} breadcrumbs={[{ label: 'Method' }]}>
+  <header class="mb-6"><p class="mb-1 text-xs font-semibold uppercase tracking-wide text-accent-600">Method</p><h1 class="mt-0 text-3xl font-bold text-navy-900 md:text-4xl">How the visa cost totals are built</h1></header>
+  <div class="prose prose-slate max-w-none">
+    <p>All pages and calculators read one data file holding the charges of {h.VISAS.length} visas, read on {h.read} in the <Fragment set:html={s('regs', 'Migration Regulations 1994')} />, compilation in force on 1 November 2026. No page types an amount by hand: when the Regulations change, the file changes and every page follows.</p>
+    <h2>1. What the law charges</h2>
+    <p>Regulation 2.12C splits the visa application charge in two. The first instalment is paid when you apply. It is the base application charge for the main applicant, or the additional applicant charge for each family member who joins the application, plus, in some cases, the subsequent temporary application charge of {h.aud(h.C.subsequentTemporary)} and the non-internet charge of {h.aud(h.C.nonInternet)}. The second instalment is paid before the visa is granted, only where Schedule 1 sets one: adults without functional English for skilled and employer visas, and every applicant for parent visas. Each item of Schedule 1 gives the amounts for its visa; we copy the amounts, never the wording.</p>
+    <h2>2. How a total is added</h2>
+    <p>For a family application, the total is the base charge, plus the adult charge for each family member aged 18 or over on the day of the application, plus the child charge for each one under 18, plus the second instalments that apply. Example: a 189 for a couple with two children, where the partner has no functional English, comes to {h.aud(ex.firstInstalment)} at lodgement and {h.aud(ex.secondInstalment)} before grant, {h.aud(ex.total)} in all. Visas that have no family application (visitor, working holiday, resident return) charge every person separately.</p>
+    <h2>3. Lower rates</h2>
+    <p>Since 1 July 2026, Schedule 1 sets a lower charge when the main applicant holds a passport of a Pacific-regional country, defined in regulation 1.03 as Micronesia, Fiji, Kiribati, Nauru, Palau, Papua New Guinea, the Marshall Islands, Samoa, Solomon Islands, Timor-Leste, Tonga, Tuvalu and Vanuatu. Students from ten ASEAN countries and students in English-language or non-award courses also pay a lower student visa charge. Other concessions depend on ministerial instruments that we do not reproduce; where one may apply, the page says so.</p>
+    <h2>4. What is left out</h2>
+    <p>Payment surcharges, health examinations, police certificates, skills assessments, English tests, translations and agent fees are not visa application charges and are not counted. Employer charges for sponsored visas are shown apart and never added to the applicant's total.</p>
+    <h2>5. Processing times</h2>
+    <p>The Department publishes how long it took to decide 50% and 90% of applications in the previous month, in a <Fragment set:html={s('ha_processing', 'processing time tool')} />. Its figures load through a script on the Department's page and are not in the page itself, so this site does not republish them. The decision-date calculator works from the two times you copy from the official tool. A monthly reading by hand is planned; until it exists, no time is shown.</p>
+    <h2>6. Licence and attribution</h2>
+    <p>Conditions are summarised from the Department of Home Affairs visa pages, provided under a <Fragment set:html={s('ha_copyright', 'Creative Commons Attribution 3.0 Australia licence')} />; attribution: Australian Government Department of Home Affairs. No emblem or logo of the Australian Government is used.</p>
+    <p>Method version of <time datetime={LAST_UPDATED}>{displayDate(LAST_UPDATED, 'en-AU')}</time>. An amount that looks wrong: <a href={route('contact', lang)}>contact</a>.</p>
+  </div>
+</PageLayout>

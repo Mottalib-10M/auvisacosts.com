@@ -1,0 +1,23 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import LegalIdentity from '../../components/LegalIdentity.astro';
+import { CONTACT_EMAIL, LAST_UPDATED, SITE_NAMES } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { displayDate } from '../../lib/format';
+const lang = 'en';
+---
+<PageLayout title={`Contact ${SITE_NAMES[lang]}: a charge, a correction, an embed`} description="Write to AU Visa Costs when a visa charge looks out of date or a total seems wrong, or to embed the free Australian visa cost calculator on a site for applicants or employers." lang={lang} noindex={true} breadcrumbs={[{ label: 'Contact' }]} showAuthor={false}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Contact</h1>
+    <p>Email: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Every message is read by a person.</p>
+    <h2>A charge has changed</h2>
+    <p>Tell us which visa and, if you can, the item of the Regulations or the Home Affairs page that shows the new amount. We read the source again, update the data file and date the change.</p>
+    <h2>What we cannot do</h2>
+    <p>We are not the Department of Home Affairs or a migration agent. We cannot see your ImmiAccount, refund a charge, speed up a decision or tell you whether you are eligible. Please never send a passport, a visa grant notice, a transaction reference or any personal document.</p>
+    <h2>Using the calculator on your site</h2>
+    <p>Employers, universities and community organisations can show the calculator in an iframe for free: see the <a href={route('widget', lang)}>embed page</a>.</p>
+    <h2>Publisher</h2>
+    <LegalIdentity lang={lang} />
+    <p>Updated on <time datetime={LAST_UPDATED}>{displayDate(LAST_UPDATED, 'en-AU')}</time>.</p>
+  </div>
+</PageLayout>

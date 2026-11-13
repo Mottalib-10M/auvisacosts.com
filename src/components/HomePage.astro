@@ -1,0 +1,125 @@
+---
+/**
+ * Home (pilier): the visa cost calculator first, then how a charge is built, the families of visas,
+ * the instalments, the lower rates, the extra costs we do not count, and every page by group.
+ * Every amount is read from data/visas.ts and params-2026.json (Schedule 1, compilation of 1 November 2026).
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+import Tool from './Tool.astro';
+import Clamp from './Clamp.astro';
+import Sources from './Sources.astro';
+import { route } from '../i18n/routes';
+import { PAGES } from '../lib/guides';
+import { GROUPS_ORDER, groupLabel } from '../i18n/nav';
+import { helpers } from '../lib/helpers';
+import { t } from '../i18n/ui';
+import { LAST_UPDATED, AUTHOR_NAME } from '../data/site-config';
+import { displayDate } from '../lib/format';
+import { faqSchema, webApplicationSchema, websiteSchema, organizationSchema } from '../lib/seo';
+const lang = 'en';
+const ui = t(lang);
+const h = helpers(lang, !process.env.LAX);
+const { aud, V, C, av, a, src } = h;
+const cards = (g: (typeof GROUPS_ORDER)[number]) => PAGES.filter((p) => p.group === g).map((p) => ({ href: route(p.id, lang), name: p.en.nav, text: p.en.card }));
+const fam189 = h.cost({ code: '189', adults: 1, children: 2 });
+const fam482 = h.cost({ code: '482', adults: 1, children: 2 });
+const visitor4 = h.cost({ code: '600', adults: 1, children: 2 });
+const p143 = h.cost({ code: '143', adults: 1, children: 0 });
+const p103 = h.cost({ code: '103', adults: 1, children: 0 });
+const count = h.VISAS.length;
+const title = 'Visa Cost Calculator 2026: Every Australian Charge Added Up';
+const description = 'Visa cost calculator for Australia in 2026: add the charge for every person on 29 visas, second instalments, Pacific rates and onshore surcharges, from the law.';
+const faqs = [
+  { q: 'How much does an Australian visa cost in 2026?', a: `It depends on the subclass: from nil for an eVisitor to ${aud(V('820').std.base)} for a partner visa, and more for a contributory parent visa paid in two instalments. A skilled 189 costs ${aud(V('189').std.base)} for the main applicant. The calculator adds the charge for each person on the application.` },
+  { q: 'Who sets the Australian visa application charges?', a: 'The charges are set in Schedule 1 of the Migration Regulations 1994, one item per visa class, and changed by amending regulations registered on the Federal Register of Legislation. The Department of Home Affairs collects them when you lodge, in ImmiAccount or through the official apps, and publishes a pricing table and an estimator based on the same amounts.' },
+  { q: 'Is the visa application charge refunded if the visa is refused?', a: 'Generally not: the charge pays for the assessment, not for the grant. Regulation 2.12F lists the limited cases where the first instalment can be refunded, and regulation 2.12H those for the second; the Department decides on a written request. Withdrawing an application does not bring the charge back either.' },
+  { q: 'Do I pay the whole visa cost when I apply?', a: `You pay the first instalment when you lodge, for every applicant on the form. Where the item sets a second instalment, it is requested shortly before grant and is due within ${C.secondInstalmentNoticeDaysInAustralia} days if the notice is sent in Australia, ${C.secondInstalmentNoticeDaysOther} days otherwise. The visa is not granted until it is paid.` },
+  { q: 'Is this the official Australian visa fee calculator?', a: 'No. This site is independent and is not run by the Australian Government. The Department of Home Affairs runs its own Visa Pricing Estimator, which you should use to confirm the amount before you pay in ImmiAccount. Our calculator reads the same Schedule 1 and shows each line, so you can see where the total comes from.' },
+  { q: 'Can I pay an Australian visa in instalments over time?', a: 'Not by choice. The two instalments are fixed by the Regulations: the first is due in full at lodgement, the second only on visas whose item sets one, when the Department requests it. A payment surcharge may apply to some payment methods; we do not count it in the totals.' },
+];
+const jsonLd = [websiteSchema(lang), organizationSchema(lang), webApplicationSchema({ name: 'Australian visa cost calculator', description, path: route('home', lang), lang }), faqSchema(faqs, lang)];
+const resume = `An Australian visa is paid through its visa application charge, which the Migration Regulations 1994 set in Schedule 1, item by item. The charge has a first instalment, paid when you lodge, and on some visas a second instalment, requested before grant. The first instalment is made of a base charge for the main applicant, an additional applicant charge for each family member who joins the application, at an adult rate from 18 years and a child rate under 18, and in some cases a subsequent temporary application charge of ${aud(C.subsequentTemporary)} per applicant and a non-internet charge of ${aud(C.nonInternet)}. We read every amount in the compilation of the Regulations in force on 1 November 2026, which carries the rates in force since 1 July 2026, for ${count} visa subclasses, and the calculator above adds them for your family. This site is independent: you apply and pay only in ImmiAccount or the official apps.`;
+---
+<PageLayout title={title} description={description} lang={lang} jsonLd={jsonLd} faqs={faqs} breadcrumbs={[]}>
+  <header class="mb-3">
+    <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-accent-600">Visa application charges · rates from 1 July 2026</p>
+    <h1 class="mt-0 text-[1.75rem] font-bold text-navy-900 max-sm:leading-tight sm:text-3xl md:text-4xl">Visa cost calculator for Australia, every person counted</h1>
+    <p class="mt-2 text-base text-navy-700 sm:text-lg">This visa cost calculator adds the charge for each person on {count} Australian visas: a couple with two children pays {aud(fam189.total)} on a skilled 189, {aud(fam482.total)} on a 482.</p>
+    <p data-chrome data-independant class="mt-1 text-xs font-medium text-navy-600">{ui.independent}</p>
+  </header>
+  <div data-outil class="mb-4"><Tool tool={{ kind: 'mini:cost', props: { a: 1, c: 2 } }} primary={true} seedKey="home" /></div>
+  <Clamp text={resume} id="clamp-home" lang={lang} class="mb-3" />
+  <p class="mb-8 text-sm text-navy-600">Charges updated on <time datetime={LAST_UPDATED}>{displayDate(LAST_UPDATED, 'en-AU')}</time> in the compilation of 1 November 2026 · {AUTHOR_NAME} · <a href={route('method', lang)} class="underline hover:text-navy-900">How the totals are worked out</a> · <a href={route('about', lang)} class="underline hover:text-navy-900">About this site</a></p>
+
+  <div class="prose prose-slate max-w-none">
+    <h2>How the visa cost calculator adds up a charge</h2>
+    <p>Every visa class has an item in Schedule 1 of the Migration Regulations 1994. The item gives the first instalment in up to three amounts: the base application charge, paid once for the main applicant; the additional applicant charge for an applicant who is at least 18; and the additional applicant charge for an applicant who is less than 18. The item also says, when there is one, the amount of the second instalment and who pays it. Regulation 2.12C adds two components that do not depend on the visa: the subsequent temporary application charge of {aud(C.subsequentTemporary)}, and the non-internet application charge of {aud(C.nonInternet)}, payable when an application that could be made online is made on paper.</p>
+    <p>The calculator applies those rules in that order. Choose the visa, enter the number of adults and children who apply with you, and it lists each line with its amount, then the total paid at lodgement and the total paid before grant. The advanced fields hold the cases that change the amount: the Pacific rate, an application made in Australia for a visa that charges more onshore, a paper application, a stream with its own charge, and the English test that triggers a second instalment.</p>
+    <Fragment set:html={h.compareTable(['189', '482', '500', '820', '600'], 1, 2, 'Couple with two children under 18, standard rates. Visitor visa: four separate applications.')} />
+    <p>The same family pays very different totals depending on the visa. On a 189 the partner pays half the main charge and each child about a quarter. On a 482 the partner pays the full main charge. On a visitor visa there is no family application: each of the four travellers lodges and pays their own, which gives {aud(visitor4.total)} for the family.</p>
+
+    <h2>The {count} visas in the calculator</h2>
+    <p>We cover the visas that most people price before applying, in six groups. Each one has its own page, with its calculator set on that visa, the conditions summarised from the Department's page, the charge table read in Schedule 1 and the questions that come back for that visa.</p>
+    <ul>
+      <li><strong>Skilled visas</strong>: the points-tested <Fragment set:html={av('189', '189')} />, <Fragment set:html={av('190', '190')} /> and <Fragment set:html={av('491', '491')} />, the <Fragment set:html={av('191', '191')} /> that follows a regional visa, and the National Innovation <Fragment set:html={av('858', '858')} />.</li>
+      <li><strong>Work visas</strong>: the employer-sponsored <Fragment set:html={av('482', '482 Skills in Demand')} />, <Fragment set:html={av('186', '186')} /> and <Fragment set:html={av('494', '494')} />, the <Fragment set:html={av('485', '485 Temporary Graduate')} />, the <Fragment set:html={av('400', '400')} /> and the <Fragment set:html={av('408', '408')} />.</li>
+      <li><strong>Partner and child visas</strong>: the <Fragment set:html={av('820', '820 and 801')} /> in Australia, the <Fragment set:html={av('309', '309 and 100')} /> outside, the <Fragment set:html={av('300', '300 Prospective Marriage')} /> and the <Fragment set:html={av('101', '101 Child')} />.</li>
+      <li><strong>Parent visas</strong>: the <Fragment set:html={av('103', '103')} />, <Fragment set:html={av('804', '804')} />, <Fragment set:html={av('143', '143')} />, <Fragment set:html={av('173', '173')} />, <Fragment set:html={av('864', '864')} /> and the temporary <Fragment set:html={av('870', '870')} />.</li>
+      <li><strong>Visitor and temporary visas</strong>: the <Fragment set:html={av('600', '600 Visitor')} />, the <Fragment set:html={av('601', 'ETA 601')} />, the <Fragment set:html={av('651', 'eVisitor 651')} />, the working holiday <Fragment set:html={av('417', '417')} /> and <Fragment set:html={av('462', '462')} />, the <Fragment set:html={av('500', '500 Student')} />, the <Fragment set:html={av('155', '155 Resident Return')} /> and the <Fragment set:html={av('020', 'Bridging visa B')} />.</li>
+    </ul>
+    <p>The full list of charges, row by row, is on the <Fragment set:html={a('australian-visa-fees-2026', 'visa fees 2026 page')} />. Visas we have not covered are left out rather than half-priced.</p>
+
+    <h2>Main applicant, adults and children</h2>
+    <p>The age that sets the rate of a family member is the age on the day of lodgement. A child of 17 pays the child rate even if the visa is granted after the eighteenth birthday; a young adult of 18 who is still a dependent child for the visa pays the adult rate. On most permanent visas the adult rate is half the base charge and the child rate about a quarter, so that a family of four pays a little more than twice the base charge. The <Fragment set:html={a('visa-cost-for-a-family', 'family cost page')} /> compares eight visas for the same family.</p>
+    <p>Three groups of visas break the rule. The 482, the 408 and the 400 charge an adult family member the full base charge. The partner visas charge the applicant and any children, but not the Australian partner, who is the sponsor. The visitor, working holiday, resident return and bridging visas have no family rate at all: each person applies on their own and pays the base charge, or travels on a family member's application only where the visa says so.</p>
+
+    <h2>The second instalment, paid before grant</h2>
+    <p>Some visas ask for part of the charge only at the end. The Department sends a request when the decision is near, and the visa cannot be granted until it is paid. The payment request gives {C.secondInstalmentNoticeDaysInAustralia} days to pay for an applicant in Australia and {C.secondInstalmentNoticeDaysOther} days otherwise, under regulation 2.12D. Two kinds of second instalment exist:</p>
+    <ul>
+      <li><strong>English</strong>: on skilled and employer-sponsored permanent visas, each applicant aged 18 or over who does not have functional English pays a second instalment instead of proving it: {aud(V('189').second!.adultNoEnglish!)} on the 189 and 190, and {aud(V('186').second!.primaryNoEnglish!)} for a main applicant on the 186 and 494.</li>
+      <li><strong>Contribution</strong>: on the parent visas, the second instalment is the main part of the cost: {aud(V('103').second!.perApplicant!)} per applicant on the 103 and 804, {aud(V('143').second!.perApplicant!)} per adult on the 143 and 864.</li>
+    </ul>
+    <p>The <Fragment set:html={a('second-instalment', 'second instalment page')} /> lists every visa that has one and gives the payment deadline from the day of the request.</p>
+    <Fragment set:html={h.secondTable()} />
+
+    <h2>Parent visas, the costliest route</h2>
+    <p>For one parent, the permanent Parent visa costs {aud(h.cost({ code: '103', adults: 0, children: 0 }).total)} and the Contributory Parent visa {aud(h.cost({ code: '143', adults: 0, children: 0 }).total)}, both instalments included. For two parents on one application, the totals are {aud(p103.total)} and {aud(p143.total)}. The gap is the contribution, paid as the second instalment. The temporary 173 splits the contributory cost into two steps, and the Sponsored Parent (Temporary) visa 870 gives a stay of up to 3 or 5 years without permanent status. The <Fragment set:html={a('parent-visa-costs-compared', 'parent visa comparison')} /> adds both steps of each route.</p>
+
+    <h2>Lower rates: Pacific passports, ASEAN students, repeat visas</h2>
+    <p>Since 1 July 2026, Schedule 1 sets lower charges for applicants who hold a passport of one of the thirteen Pacific-regional countries named in regulation 1.03, which include Timor-Leste. The saving is about a fifth on most skilled and family visas and much larger on a few: the student visa falls from {aud(V('500').std.base)} to {aud(V('500').pacific!.base)}. The student visa also has a reduced rate for some passports and courses, and the working holiday visas charge more for a second or third visa than for the first. The calculator handles each case in its advanced fields; the <Fragment set:html={a('pacific-visa-rates', 'Pacific rates page')} /> lists them all.</p>
+
+    <h2>Applying in Australia</h2>
+    <p>Where you are when you lodge can change the amount. A visitor visa lodged in Australia costs {aud(V('600').onshore!.std)}, against {aud(V('600').std.base)} outside. An applicant in Australia whose current or last substantive visa was also applied for in Australia can owe the <Fragment set:html={a('subsequent-temporary-application-charge', 'subsequent temporary application charge')} /> of {aud(C.subsequentTemporary)} on a temporary visa named by the Minister. The calculator asks where you apply and, for that charge, whether the conditions are met; it does not know the Minister's list, which the Department's estimator applies to your case.</p>
+
+    <h2>What a visa costs beyond the charge</h2>
+    <p>The visa application charge is the only amount set by the Regulations, and the only one we total. An application usually needs other payments, made to other providers, which vary by country and by person:</p>
+    <ul>
+      <li>health examinations by a panel physician, and the X-ray where it is required;</li>
+      <li>police certificates from each country where you have lived;</li>
+      <li>certified translations of documents not in English;</li>
+      <li>English tests, and skills assessments for skilled and employer visas;</li>
+      <li>for employer visas, the nomination fee and the levy paid by the employer, set by separate instruments;</li>
+      <li>for students, health insurance for the length of the stay;</li>
+      <li>any fee of a registered migration agent or lawyer, if you use one.</li>
+    </ul>
+    <p>We do not put figures on these lines: they are not published in one place and change with the provider. The employer nomination fee of the 186 is the exception, set in regulation 5.37 at {aud(C.ensNomination)}, and shown on the <Fragment set:html={av('186', '186 page')} />.</p>
+
+    <h2>Processing times and the date of a decision</h2>
+    <p>The Department publishes, for each visa and stream, the time in which 50% and 90% of the applications finalised in the previous month were decided. The figures are loaded by a script on its page, and we do not copy them automatically. The <Fragment set:html={a('visa-processing-times', 'decision date calculator')} /> turns the two times you read on the <Fragment set:html={src('ha_processing', 'official processing time tool')} /> into dates from your lodgement day. Each visa page has a small version of it, under the cost calculator.</p>
+
+    <h2>When the charges change</h2>
+    <p>The charges are increased by amending regulations, in recent years from 1 July. The amount due is the one in force on the day you lodge, so an application made the day before an increase pays the old rate. We read the compilation of the Regulations on the <Fragment set:html={src('regs', 'Federal Register of Legislation')} />, note its date, and update the data file when a new compilation changes Schedule 1. Until then, the page shows the rates with the date they were read. The Department's <Fragment set:html={src('ha_pricing', 'visa pricing page')} /> and <Fragment set:html={src('ha_estimator', 'Visa Pricing Estimator')} /> remain the place to confirm the amount before you pay.</p>
+
+    <h2>Every page of the site</h2>
+  </div>
+  <div class="not-prose mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-sommaire>
+    {GROUPS_ORDER.map((g) => (
+      <section><h3 class="mb-2 text-lg font-semibold text-navy-900">{groupLabel(g)}</h3><ul class="space-y-2 text-sm">{cards(g).map((c) => <li><a href={c.href} class="font-medium text-accent-700 underline">{c.name}</a><span class="block text-navy-700">{c.text}</span></li>)}</ul></section>
+    ))}
+  </div>
+  <div class="prose prose-slate mt-8 max-w-none">
+    <h2>Independent, and what that means</h2>
+    <p>{AUTHOR_NAME} publishes this site on its own. It is not the Department of Home Affairs, the Australian Government, a state or territory nominating body or a registered migration agent, and it gives no immigration advice. It sells nothing and takes no application. The amounts are facts read in the Regulations; the summaries of visa conditions are written by us from the Department's pages, published under a Creative Commons Attribution 3.0 Australia licence. Whether you are eligible for a visa is a question for the Department or for a registered migration agent; for points-tested visas, the Department's visa pages set out the points test.</p>
+    <Sources lang={lang} intro="The charges and rules on this site were read in the Migration Regulations 1994 and on the pages of the Department of Home Affairs below, on" />
+  </div>
+</PageLayout>

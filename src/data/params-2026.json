@@ -1,0 +1,240 @@
+{
+ "_lisezmoi": "Montants relus le 2026-11-13 dans la compilation du 1er novembre 2026 des Migration Regulations 1994 (Schedule 1, reg. 2.12C, reg. 5.37). Pages Home Affairs relues en curl le même jour (résumé statique). Aucun délai de traitement : voir processing-times.json.",
+ "year": 2026,
+ "retrieved_at": "2026-11-13",
+ "compilation": "2026-11-01",
+ "valid_from": "2026-07-01",
+ "valid_to": "2027-06-30",
+ "charges": {
+  "subsequentTemporary": 700,
+  "nonInternet": 80,
+  "ensNomination": 540,
+  "etaServiceCharge": 20,
+  "secondInstalmentNoticeDaysInAustralia": 28,
+  "secondInstalmentNoticeDaysOther": 70
+ },
+ "sources": {
+  "regs": {
+   "url": "https://www.legislation.gov.au/F1996B03551/latest/text",
+   "label": {
+    "en": "Migration Regulations 1994, Schedule 1 and regulation 2.12C (compilation in force on 1 November 2026), Federal Register of Legislation"
+   }
+  },
+  "regs_downloads": {
+   "url": "https://www.legislation.gov.au/F1996B03551/latest/downloads",
+   "label": {
+    "en": "Migration Regulations 1994, downloadable volumes of the 1 November 2026 compilation"
+   }
+  },
+  "ha_pricing": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/fees-and-charges/current-visa-pricing",
+   "label": {
+    "en": "Department of Home Affairs, Current visa pricing"
+   }
+  },
+  "ha_estimator": {
+   "url": "https://immi.homeaffairs.gov.au/visas/visa-pricing-estimator",
+   "label": {
+    "en": "Department of Home Affairs, Visa Pricing Estimator"
+   }
+  },
+  "ha_processing": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-processing-times/global-visa-processing-times",
+   "label": {
+    "en": "Department of Home Affairs, Global visa processing times"
+   }
+  },
+  "ha_copyright": {
+   "url": "https://www.homeaffairs.gov.au/access-and-accountability/using-our-website/copyright-and-disclaimer",
+   "label": {
+    "en": "Department of Home Affairs, Copyright and disclaimer (CC BY 3.0 AU)"
+   }
+  },
+  "ha_600": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/visitor-600",
+   "label": {
+    "en": "Department of Home Affairs, Visitor visa (subclass 600)"
+   }
+  },
+  "ha_601": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/electronic-travel-authority-601",
+   "label": {
+    "en": "Department of Home Affairs, Electronic Travel Authority (subclass 601)"
+   }
+  },
+  "ha_651": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/evisitor-651",
+   "label": {
+    "en": "Department of Home Affairs, eVisitor (subclass 651)"
+   }
+  },
+  "ha_500": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500",
+   "label": {
+    "en": "Department of Home Affairs, Student visa (subclass 500)"
+   }
+  },
+  "ha_485": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/temporary-graduate-485",
+   "label": {
+    "en": "Department of Home Affairs, Temporary Graduate visa (subclass 485)"
+   }
+  },
+  "ha_482": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skills-in-demand-visa-subclass-482",
+   "label": {
+    "en": "Department of Home Affairs, Skills in Demand visa (subclass 482)"
+   }
+  },
+  "ha_186": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/employer-nomination-scheme-186",
+   "label": {
+    "en": "Department of Home Affairs, Employer Nomination Scheme visa (subclass 186)"
+   }
+  },
+  "ha_494": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-employer-sponsored-regional-494",
+   "label": {
+    "en": "Department of Home Affairs, Skilled Employer Sponsored Regional visa (subclass 494)"
+   }
+  },
+  "ha_189": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-independent-189",
+   "label": {
+    "en": "Department of Home Affairs, Skilled Independent visa (subclass 189)"
+   }
+  },
+  "ha_190": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-nominated-190",
+   "label": {
+    "en": "Department of Home Affairs, Skilled Nominated visa (subclass 190)"
+   }
+  },
+  "ha_491": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-work-regional-provisional-491",
+   "label": {
+    "en": "Department of Home Affairs, Skilled Work Regional visa (subclass 491)"
+   }
+  },
+  "ha_191": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-regional-191",
+   "label": {
+    "en": "Department of Home Affairs, Permanent Residence (Skilled Regional) visa (subclass 191)"
+   }
+  },
+  "ha_858": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/national-innovation-visa-858",
+   "label": {
+    "en": "Department of Home Affairs, National Innovation visa (subclass 858)"
+   }
+  },
+  "ha_820": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/partner-onshore",
+   "label": {
+    "en": "Department of Home Affairs, Partner visa onshore (subclasses 820 and 801)"
+   }
+  },
+  "ha_309": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/partner-offshore",
+   "label": {
+    "en": "Department of Home Affairs, Partner visa offshore (subclasses 309 and 100)"
+   }
+  },
+  "ha_300": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/prospective-marriage-300",
+   "label": {
+    "en": "Department of Home Affairs, Prospective Marriage visa (subclass 300)"
+   }
+  },
+  "ha_103": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/parent-103",
+   "label": {
+    "en": "Department of Home Affairs, Parent visa (subclass 103)"
+   }
+  },
+  "ha_143": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/contributory-parent-143",
+   "label": {
+    "en": "Department of Home Affairs, Contributory Parent visa (subclass 143)"
+   }
+  },
+  "ha_173": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/contributory-parent-temporary-173",
+   "label": {
+    "en": "Department of Home Affairs, Contributory Parent (Temporary) visa (subclass 173)"
+   }
+  },
+  "ha_804": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/aged-parent-804",
+   "label": {
+    "en": "Department of Home Affairs, Aged Parent visa (subclass 804)"
+   }
+  },
+  "ha_864": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/contributory-aged-parent-864",
+   "label": {
+    "en": "Department of Home Affairs, Contributory Aged Parent visa (subclass 864)"
+   }
+  },
+  "ha_870": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/sponsored-parent-temporary-870",
+   "label": {
+    "en": "Department of Home Affairs, Sponsored Parent (Temporary) visa (subclass 870)"
+   }
+  },
+  "ha_101": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/child-101",
+   "label": {
+    "en": "Department of Home Affairs, Child visa (subclasses 101 and 802)"
+   }
+  },
+  "ha_802": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/child-802",
+   "label": {
+    "en": "Department of Home Affairs, Child visa (subclass 802)"
+   }
+  },
+  "ha_417": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/work-holiday-417",
+   "label": {
+    "en": "Department of Home Affairs, Working Holiday visa (subclass 417)"
+   }
+  },
+  "ha_462": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/work-holiday-462",
+   "label": {
+    "en": "Department of Home Affairs, Work and Holiday visa (subclass 462)"
+   }
+  },
+  "ha_408": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/temporary-activity-408",
+   "label": {
+    "en": "Department of Home Affairs, Temporary Activity visa (subclass 408)"
+   }
+  },
+  "ha_400": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/temporary-work-400",
+   "label": {
+    "en": "Department of Home Affairs, Temporary Work (Short Stay Specialist) visa (subclass 400)"
+   }
+  },
+  "ha_155": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/resident-return-visa-155-157",
+   "label": {
+    "en": "Department of Home Affairs, Resident Return visa (subclass 155)"
+   }
+  },
+  "ha_020": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/bridging-visa-b-020",
+   "label": {
+    "en": "Department of Home Affairs, Bridging visa B (subclass 020)"
+   }
+  },
+  "ha_771": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/transit-771",
+   "label": {
+    "en": "Department of Home Affairs, Transit visa (subclass 771)"
+   }
+  }
+ }
+}

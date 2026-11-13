@@ -1,0 +1,29 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { LAST_UPDATED, AUTHOR_NAME, CONTACT_EMAIL, AUTHOR_ROLE, SITE_NAMES } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { organizationSchema, breadcrumbSchema, profilePageSchema } from '../../lib/seo';
+import { displayDate } from '../../lib/format';
+import { PAGES } from '../../lib/guides';
+import { VISAS } from '../../data/visas';
+const lang = 'en';
+const n = PAGES.length + 1;
+---
+<PageLayout title="Radif Partners, publisher of AU Visa Costs: who we are" description="Who publishes AU Visa Costs, where its visa charges come from, how they are checked against the Migration Regulations, and what the site will never sell you." lang={lang} jsonLd={[organizationSchema(lang), profilePageSchema({ path: route('about', lang), lang }), breadcrumbSchema([{ name: 'Home', path: route('home', lang) }, { name: 'About', path: route('about', lang) }])]} breadcrumbs={[{ label: 'About' }]}>
+  <header class="mb-6"><p class="mb-1 text-xs font-semibold uppercase tracking-wide text-accent-600">About</p><h1 class="mt-0 text-3xl font-bold text-navy-900 md:text-4xl">Who is behind {SITE_NAMES[lang]}</h1></header>
+  <div class="prose prose-slate max-w-none">
+    <div class="not-prose mb-6"><p class="text-lg font-semibold text-navy-900">{AUTHOR_NAME}</p><p class="text-navy-700">{AUTHOR_ROLE[lang]}</p></div>
+    <p>{SITE_NAMES[lang]} is published by {AUTHOR_NAME}, a company that turns public rules into free calculators. This site is for people who need to know what an Australian visa will cost before they commit: skilled workers comparing the 189, 190 and 491, couples budgeting a partner visa, families bringing parents over, students and their dependants, and employers who want to tell a candidate what the family will pay.</p>
+    <h2>What you will find here</h2>
+    <p>A calculator that adds every charge of {VISAS.length} visa subclasses for the main applicant, a partner and each child; the second instalment that some adults pay before grant; the lower rates for Pacific and Timor-Leste passports; comparisons of skilled, partner and parent routes; and a tool that turns the official processing times into dates. No account, no email address, no consultation to book.</p>
+    <h2>Where the figures come from</h2>
+    <p>Every charge is read in Schedule 1 of the Migration Regulations 1994, in the compilation in force on 1 November 2026, and each page names the item it comes from. Short summaries of conditions come from the same items and from the visa pages of the Department of Home Affairs, published under a Creative Commons Attribution 3.0 Australia licence. The <a href={route('method', lang)}>method page</a> explains how the totals are built.</p>
+    <h2>What we are not</h2>
+    <p>We are not the Department of Home Affairs, the Australian Government or a registered migration agent. We cannot see an application, lodge one, take a payment or tell you whether you will be granted a visa. The site shows no government emblem.</p>
+    <h2>How the site is funded</h2>
+    <p>Nothing is sold here: no migration service, no referral to an agent, no paid report. If advertising appears one day, it will stay out of the calculators and will never see what you type, which does not leave your browser.</p>
+    <h2>Report a mistake</h2>
+    <p>Write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> with the visa and the amount. The <a href={route('editorial', lang)}>editorial policy</a> says how corrections are made and dated. The site has {n} pages.</p>
+    <p class="text-sm text-navy-600">Charges last checked on <time datetime={LAST_UPDATED}>{displayDate(LAST_UPDATED, 'en-AU')}</time>.</p>
+  </div>
+</PageLayout>
