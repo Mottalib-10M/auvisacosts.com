@@ -1,5 +1,5 @@
 {
- "_lisezmoi": "Montants relus le 2026-11-13 dans la compilation du 1er novembre 2026 des Migration Regulations 1994 (Schedule 1, reg. 2.12C, reg. 5.37). Pages Home Affairs relues en curl le même jour (résumé statique). Aucun délai de traitement : voir processing-times.json.",
+ "_lisezmoi": "Montants relus le 2026-11-13 dans la compilation du 1er novembre 2026 des Migration Regulations 1994 (Schedule 1, reg. 2.12C, reg. 5.37). Pages Home Affairs relues en curl le même jour (résumé statique). Délais de traitement relus à la main dans un navigateur le 2026-11-14 (outil officiel, mise à jour du 2 novembre 2026) : voir processing-times.json.",
  "year": 2026,
  "retrieved_at": "2026-11-13",
  "compilation": "2026-11-01",
@@ -41,7 +41,7 @@
   "ha_processing": {
    "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-processing-times/global-visa-processing-times",
    "label": {
-    "en": "Department of Home Affairs, Global visa processing times"
+    "en": "Department of Home Affairs, Visa processing times guide (update of 2 November 2026, read on 14 November 2026)"
    }
   },
   "ha_copyright": {
@@ -234,6 +234,12 @@
    "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/transit-771",
    "label": {
     "en": "Department of Home Affairs, Transit visa (subclass 771)"
+   }
+  },
+  "ha_parent_queue": {
+   "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-processing-times/family-visa-processing-priorities/parent-visas-queue-release-dates",
+   "label": {
+    "en": "Department of Home Affairs, Parent visas: queue release dates and processing times (update as at 31 August 2026)"
    }
   }
  }

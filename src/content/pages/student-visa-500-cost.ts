@@ -8,9 +8,9 @@ export default definePage({
   sources: ["regs", "ha_500", "ha_processing"],
   en: {
     slug: 'student-visa-500-cost', nav: "Student visa 500 cost", card: "Student visa: standard, ASEAN and ELICOS rate, Pacific rate, partner and children.",
-    title: "Student Visa 500 Cost 2026: Fees for You and Your Family",
+    title: "Student Visa 500 Cost 2026: Australia Student Visa Fee",
     description: "Student visa 500 cost in 2026: standard charge, the lower ASEAN and English-course rate, Pacific rate, partner and children, and the onshore surcharge.",
-    h1: "Student visa 500 cost, by passport and course",
+    h1: "Student visa 500 cost: the Australia student visa fee, by course",
     intro: (h) => `The student visa 500 cost is ${h.aud(h.V('500').std.base)} in most cases, plus ${h.aud(h.V('500').std.add18)} for a partner and ${h.aud(h.V('500').std.addU18)} per child.`,
     resume: (h) => `The Student visa lets you study full time in a registered course in Australia. Item 1222 of Schedule 1 sets three main rates in the compilation in force on 1 November 2026. Most applicants pay ${h.aud(h.V('500').std.base)}, with ${h.aud(h.V('500').std.add18)} for each family member aged 18 or over and ${h.aud(h.V('500').std.addU18)} for each child. Holders of a passport of Brunei, Cambodia, Indonesia, Laos, Malaysia, Myanmar, the Philippines, Singapore, Thailand or Vietnam, and students enrolled in an English-language (ELICOS) or non-award course, pay ${h.aud(h.V('500').variants!.find((x) => x.id === 'reduced')!.fee.base)}. Holders of a Pacific or Timor-Leste passport pay ${h.aud(h.V('500').pacific!.base)}. There is no second instalment. Applicants in Australia who move from certain temporary visas may also owe the subsequent temporary application charge of ${h.aud(h.C.subsequentTemporary)}, which this calculator adds only on its own page. Overseas Student Health Cover and tuition are separate costs.`,
     faqs: (h) => [

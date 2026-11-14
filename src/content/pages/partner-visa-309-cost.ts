@@ -8,9 +8,9 @@ export default definePage({
   sources: ["regs", "ha_309", "ha_processing"],
   en: {
     slug: 'partner-visa-309-cost', nav: "Partner visa 309 cost", card: "Offshore partner visa: one charge for the 309 and the 100, children, Pacific rate.",
-    title: "Partner Visa 309 Cost 2026: Offshore 309 and 100 Together",
+    title: "309 Visa: Partner Visa 309 Cost 2026, Offshore 309 and 100",
     description: "Partner visa 309 cost in 2026 for applicants outside Australia: one charge for the provisional 309 and permanent 100, children, and the Pacific rates.",
-    h1: "Partner visa 309 cost, from outside Australia",
+    h1: "309 visa: partner visa 309 cost, from outside Australia",
     intro: (h) => `The partner visa 309 cost is ${h.aud(h.V('309').std.base)} for the applicant, covering both the 309 and the permanent 100.`,
     resume: (h) => `The offshore partner visa is applied for from outside Australia. Like the onshore one, it is a single application for two visas: the Partner (Provisional) visa, subclass 309, and the Partner (Migrant) visa, subclass 100. The provisional class has a nil charge and the full amount sits in item 1129 of Schedule 1, the Partner (Migrant) class. In the compilation in force on 1 November 2026, the applicant pays ${h.aud(h.V('309').std.base)}, each other family member aged 18 or over ${h.aud(h.V('309').std.add18)} and each child under 18 ${h.aud(h.V('309').std.addU18)}, with no second instalment. With a Pacific or Timor-Leste passport, the charge is ${h.aud(h.V('309').pacific!.base)}. Applicants who hold a Dependent Child visa, subclass 445, and family members combined with them pay nothing. The sponsoring partner in Australia pays no fee to the Department.`,
     faqs: (h) => [

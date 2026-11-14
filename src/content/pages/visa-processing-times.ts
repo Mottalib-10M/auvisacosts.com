@@ -19,8 +19,8 @@ export default definePage({
     body: (h) => `
 <h2>Australian visa processing times: how to read them</h2>
 <p>The official tool asks for the visa type and stream, then shows the two times. They are given in days for fast visas and in months for the others. Enter months in the calculator; for a time in days, divide by thirty. The times are updated monthly, so a date worked out today can move by the time you check again.</p>
-<h2>Why this site shows no times of its own</h2>
-<p>The Department's figures are loaded by a script on its page and are not in the page itself. We do not copy them automatically. Until a dated monthly reading is in place, the decision-date calculator works from the figures you read on the ${h.src('ha_processing', 'official processing time tool')}, which is always the current source.</p>
+<h2>Where to find the times for each visa</h2>
+<p>The Department's figures are loaded by a script on its page. We do not copy them automatically: we read them by hand, visa by visa, and date the reading. The ${h.a('visa-application-time', 'visa application time page')} lists every visa and stream, and the ${h.a('visa-approval-time', 'visa approval time page')} compares a wait with them. The calculator above works from the figures you enter, so you can use the ${h.src('ha_processing', 'official processing time tool')}, which is always the current source.</p>
 <h2>What slows a file down</h2>
 <ul><li>Missing documents, or a request for more information that waits for your reply.</li><li>Health examinations and police certificates that arrive late.</li><li>Priority rules set by ministerial direction for some visas, such as student visas lodged outside Australia, which the Department names on the visa page.</li></ul>
 <h2>The charge and the wait</h2>

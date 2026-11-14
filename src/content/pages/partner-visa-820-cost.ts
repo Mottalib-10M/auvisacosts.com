@@ -8,9 +8,9 @@ export default definePage({
   sources: ["regs", "ha_820", "ha_processing"],
   en: {
     slug: 'partner-visa-820-cost', nav: "Partner visa 820 cost", card: "Onshore partner visa: one charge for the 820 and the 801, children, the lower rate after a 300.",
-    title: "Partner Visa 820 Cost 2026: Onshore 820 and 801 in One Fee",
+    title: "820 Visa: Partner Visa 820 Cost 2026, Onshore 820 and 801",
     description: "Partner visa 820 cost in 2026: one charge for the temporary 820 and the permanent 801, dependent children, the lower rate after a 300 visa and the Pacific rate.",
-    h1: "Partner visa 820 cost, onshore",
+    h1: "820 visa: partner visa 820 cost, onshore",
     intro: (h) => `The partner visa 820 cost is ${h.aud(h.V('820').std.base)} for the applicant, paid once for both the 820 and the 801.`,
     resume: (h) => `The onshore partner visa is applied for in Australia by the spouse or de facto partner of an Australian citizen, permanent resident or eligible New Zealand citizen. It is one application for two visas: the temporary Partner (Temporary) visa, subclass 820, and the permanent Partner (Residence) visa, subclass 801. The Partner (Temporary) class has no charge of its own; the whole amount is set by item 1124B, the Partner (Residence) class. In the compilation in force on 1 November 2026, the applicant pays ${h.aud(h.V('820').std.base)}, each other family member aged 18 or over ${h.aud(h.V('820').std.add18)}, and each dependent child under 18 ${h.aud(h.V('820').std.addU18)}. There is no second instalment. A person who entered on a Prospective Marriage visa and married the sponsor pays a much lower charge, ${h.aud(h.V('820').variants!.find((x) => x.id === 'pmv')!.fee.base)}. With a Pacific or Timor-Leste passport, the standard charge is ${h.aud(h.V('820').pacific!.base)}. The sponsor pays nothing to the Department.`,
     faqs: (h) => [

@@ -1,6 +1,386 @@
 {
-  "_note": "Monthly hand reading of the Department of Home Affairs global visa processing times (50% and 90%). Empty until the editor reads the official tool by hand: nothing is displayed while 'rows' is empty. Never scripted.",
-  "source": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-processing-times/global-visa-processing-times",
-  "read_on": null,
-  "rows": []
+ "_note": "Read by hand on 14 November 2026 in a normal browser, in the Department of Home Affairs visa processing times guide (page last updated 2 November 2026): one query per visa and stream, figures copied as displayed. Not scripted against any data endpoint. Parent visas are not in that tool: their queue dates and estimates come from the static parent visa queue page (update dated 31 August 2026).",
+ "source": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-processing-times/global-visa-processing-times",
+ "read_on": "2026-11-14",
+ "published_update": "2026-11-02",
+ "rows": [
+  {
+   "code": "186",
+   "stream": "Agreement Pathway",
+   "p50": "44 Days",
+   "p90": "13 Months"
+  },
+  {
+   "code": "186",
+   "stream": "Direct Entry Pathway",
+   "p50": "22 Months",
+   "p90": "24 Months"
+  },
+  {
+   "code": "186",
+   "stream": "Transition Pathway",
+   "p50": "22 Months",
+   "p90": "24 Months"
+  },
+  {
+   "code": "189",
+   "stream": "New Zealand",
+   "p50": "56 Months",
+   "p90": "62 Months"
+  },
+  {
+   "code": "189",
+   "stream": "Points-Tested",
+   "p50": "90 Days",
+   "p90": "9 Months"
+  },
+  {
+   "code": "190",
+   "stream": "",
+   "p50": "8 Months",
+   "p90": "16 Months"
+  },
+  {
+   "code": "191",
+   "stream": "Regional Provisional Visa",
+   "p50": "7 Months",
+   "p90": "11 Months"
+  },
+  {
+   "code": "491",
+   "stream": "Family Sponsored Regional",
+   "p50": "4 Months",
+   "p90": "7 Months"
+  },
+  {
+   "code": "491",
+   "stream": "State/Territory Government Nominated Regional",
+   "p50": "17 Months",
+   "p90": "30 Months"
+  },
+  {
+   "code": "494",
+   "stream": "Employer Sponsored",
+   "p50": "10 Months",
+   "p90": "20 Months"
+  },
+  {
+   "code": "494",
+   "stream": "Labour Agreement",
+   "p50": "86 Days",
+   "p90": "13 Months"
+  },
+  {
+   "code": "482",
+   "stream": "Core Skills",
+   "p50": "6 Months",
+   "p90": "9 Months"
+  },
+  {
+   "code": "482",
+   "stream": "Specialist Skills",
+   "p50": "59 Days",
+   "p90": "3 Months"
+  },
+  {
+   "code": "482",
+   "stream": "Labour Agreement",
+   "p50": "6 Months",
+   "p90": "10 Months"
+  },
+  {
+   "code": "482",
+   "stream": "Nomination",
+   "p50": "36 Days",
+   "p90": "9 Months"
+  },
+  {
+   "code": "482",
+   "stream": "Sponsorship",
+   "p50": "15 Days",
+   "p90": "4 Months"
+  },
+  {
+   "code": "858",
+   "stream": "National Innovation",
+   "p50": "78 Days",
+   "p90": "7 Months"
+  },
+  {
+   "code": "820",
+   "stream": "",
+   "p50": "21 Months",
+   "p90": "30 Months"
+  },
+  {
+   "code": "801",
+   "stream": "",
+   "p50": "6 Months",
+   "p90": "19 Months"
+  },
+  {
+   "code": "309",
+   "stream": "",
+   "p50": "21 Months",
+   "p90": "35 Months"
+  },
+  {
+   "code": "100",
+   "stream": "",
+   "p50": "9 Months",
+   "p90": "18 Months"
+  },
+  {
+   "code": "300",
+   "stream": "",
+   "p50": "18 Months",
+   "p90": "31 Months"
+  },
+  {
+   "code": "101",
+   "stream": "",
+   "p50": "29 Months",
+   "p90": "33 Months"
+  },
+  {
+   "code": "802",
+   "stream": "",
+   "p50": "21 Months",
+   "p90": "31 Months"
+  },
+  {
+   "code": "870",
+   "stream": "Sponsorship",
+   "p50": "4 Months",
+   "p90": "4 Months"
+  },
+  {
+   "code": "870",
+   "stream": "Visa Application",
+   "p50": "7 Months",
+   "p90": "9 Months"
+  },
+  {
+   "code": "500",
+   "stream": "Higher Education Sector",
+   "p50": "25 Days",
+   "p90": "7 Months"
+  },
+  {
+   "code": "500",
+   "stream": "Vocational Education and Training Sector",
+   "p50": "4 Months",
+   "p90": "7 Months"
+  },
+  {
+   "code": "500",
+   "stream": "Schools Sector",
+   "p50": "24 Days",
+   "p90": "7 Months"
+  },
+  {
+   "code": "500",
+   "stream": "Independent ELICOS Sector",
+   "p50": "11 Days",
+   "p90": "49 Days"
+  },
+  {
+   "code": "500",
+   "stream": "Non-Award Sector",
+   "p50": "Less than 1 Day",
+   "p90": "23 Days"
+  },
+  {
+   "code": "500",
+   "stream": "Postgraduate Research Sector",
+   "p50": "25 Days",
+   "p90": "66 Days"
+  },
+  {
+   "code": "500",
+   "stream": "Foreign Affairs or Defence Sector",
+   "p50": "1 Day",
+   "p90": "25 Days"
+  },
+  {
+   "code": "485",
+   "stream": "Post-Higher Education Work",
+   "p50": "16 Days",
+   "p90": "33 Days"
+  },
+  {
+   "code": "485",
+   "stream": "Post-Vocation Education Work",
+   "p50": "52 Days",
+   "p90": "4 Months"
+  },
+  {
+   "code": "600",
+   "stream": "Tourist",
+   "p50": "21 Days",
+   "p90": "31 Days"
+  },
+  {
+   "code": "600",
+   "stream": "Sponsored Family",
+   "p50": "40 Days",
+   "p90": "89 Days"
+  },
+  {
+   "code": "600",
+   "stream": "Business Visitor",
+   "p50": "7 Days",
+   "p90": "23 Days"
+  },
+  {
+   "code": "601",
+   "stream": "",
+   "p50": "Less than 1 Day",
+   "p90": "Less than 1 Day"
+  },
+  {
+   "code": "651",
+   "stream": "",
+   "p50": "Less than 1 Day",
+   "p90": "Less than 1 Day"
+  },
+  {
+   "code": "417",
+   "stream": "",
+   "p50": "58 Days",
+   "p90": "80 Days"
+  },
+  {
+   "code": "462",
+   "stream": "",
+   "p50": "7 Days",
+   "p90": "74 Days"
+  },
+  {
+   "code": "408",
+   "stream": "Entertainment Activities",
+   "p50": "23 Days",
+   "p90": "40 Days"
+  },
+  {
+   "code": "408",
+   "stream": "Exchange Arrangements",
+   "p50": "29 Days",
+   "p90": "50 Days"
+  },
+  {
+   "code": "408",
+   "stream": "Invited for Other Social and Cultural Activity",
+   "p50": "6 Days",
+   "p90": "34 Days"
+  },
+  {
+   "code": "408",
+   "stream": "Religious Work",
+   "p50": "4 Months",
+   "p90": "10 Months"
+  },
+  {
+   "code": "408",
+   "stream": "Research Activities",
+   "p50": "77 Days",
+   "p90": "14 Months"
+  },
+  {
+   "code": "408",
+   "stream": "Special Programs",
+   "p50": "7 Days",
+   "p90": "30 Days"
+  },
+  {
+   "code": "408",
+   "stream": "Sporting Activities",
+   "p50": "14 Days",
+   "p90": "56 Days"
+  },
+  {
+   "code": "408",
+   "stream": "Superyacht Crew",
+   "p50": "8 Days",
+   "p90": "15 Days"
+  },
+  {
+   "code": "400",
+   "stream": "",
+   "p50": "12 Days",
+   "p90": "41 Days"
+  },
+  {
+   "code": "155",
+   "stream": "",
+   "p50": "Less than 1 Day",
+   "p90": "6 Days"
+  }
+ ],
+ "parent": {
+  "source": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-processing-times/family-visa-processing-priorities/parent-visas-queue-release-dates",
+  "as_at": "2026-08-31",
+  "read_on": "2026-11-14",
+  "newApplicationYears": {
+   "contributory": 18,
+   "nonContributory": 42
+  },
+  "queue": [
+   {
+    "code": "143",
+    "name": "Contributory Parent (143)",
+    "acknowledge": "Approx. 4 weeks",
+    "queueAssessment": "Lodged April 2024",
+    "released": "2018-11",
+    "releasedLabel": "Lodged/queued up to November 2018",
+    "contributory": true
+   },
+   {
+    "code": "173",
+    "name": "Contributory Parent (Temporary) (173)",
+    "acknowledge": "Approx. 4 weeks",
+    "queueAssessment": "Lodged April 2024",
+    "released": "2018-11",
+    "releasedLabel": "Lodged/queued up to November 2018",
+    "contributory": true
+   },
+   {
+    "code": "864",
+    "name": "Contributory Aged Parent (864)",
+    "acknowledge": "Approx. 4 weeks",
+    "queueAssessment": "Lodged April 2023",
+    "released": "2020-11",
+    "releasedLabel": "Lodged/queued up to November 2020",
+    "contributory": true
+   },
+   {
+    "code": "884",
+    "name": "Contributory Aged Parent (Temporary) (884)",
+    "acknowledge": "Approx. 4 weeks",
+    "queueAssessment": "Lodged April 2023",
+    "released": "2020-11",
+    "releasedLabel": "Lodged/queued up to November 2020",
+    "contributory": true
+   },
+   {
+    "code": "103",
+    "name": "Parent (103)",
+    "acknowledge": "Approx. 4 weeks",
+    "queueAssessment": "Lodged February 2023",
+    "released": "2014-03",
+    "releasedLabel": "Queued up to March 2014",
+    "contributory": false
+   },
+   {
+    "code": "804",
+    "name": "Aged Parent (804)",
+    "acknowledge": "Approx. 4 weeks",
+    "queueAssessment": "Lodged January 2023",
+    "released": "2014-10",
+    "releasedLabel": "Queued up to October 2014",
+    "contributory": false
+   }
+  ],
+  "temporaryToPermanent": "May 2026"
+ }
 }

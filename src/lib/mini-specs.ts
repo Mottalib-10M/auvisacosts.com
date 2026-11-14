@@ -6,6 +6,7 @@ import type { MiniSpec } from './mini-types';
 import { VISAS, visaByCode } from '../data/visas';
 import { visaCost, addMonths, secondInstalmentDeadline, feeOf } from './engine/cost';
 import { money, dateL } from './format-l';
+import { TIMES, PARENT, months, said, rowLabel, rowIdx, TIMES_UPDATE } from './times';
 
 const clamp = (x: number, a: number, b: number) => Math.max(a, Math.min(b, x));
 const plural = (k: number, w: string) => `${k} ${w}${k === 1 ? '' : 's'}`;
@@ -159,6 +160,124 @@ const SPECS: Record<string, (lang: string) => MiniSpec> = {
 };
 
 
+/** Decision dates from the official 50% and 90% times, for every visa and stream, or for one visa (`times-<code>`). */
+function timesSpec(code?: string): MiniSpec {
+  const opts = TIMES.map((r, i) => ({ value: String(i), label: code ? (r.stream.replace('State/Territory Government Nominated Regional', 'State or territory nominated') || rowLabel(r)) : rowLabel(r) })).filter((_, i) => !code || TIMES[i].code === code);
+  const rowOf = (v: Record<string, number>) => TIMES[clamp(Math.round(v.r ?? Number(opts[0].value)), 0, TIMES.length - 1)];
+  const inputs: MiniSpec['inputs'] = [];
+  if (opts.length > 1) inputs.push({ id: 'r', label: code ? 'Stream' : 'Visa and stream', def: Number(opts[0].value), options: opts });
+  inputs.push({ id: 'd', label: 'Day you lodged', def: 14, max: 31 }, { id: 'm', label: 'Month you lodged', def: 11, options: MONTH_OPT }, { id: 'y', label: 'Year you lodged', def: 2026, options: YEAR_OPT });
+  return {
+    title: code ? `When a ${code} decision could come` : 'How long your visa application could take', cta: 'Processing times explained',
+    exemple: (v) => `Example for the ${rowLabel(rowOf(v))}, lodged on ${dateL(iso(v.y ?? 2026, v.m ?? 11, v.d ?? 14))}`,
+    inputs,
+    run: (v) => {
+      const r = rowOf(v.r === undefined ? { r: Number(opts[0].value) } : v);
+      const start = iso(v.y ?? 2026, v.m ?? 11, v.d ?? 14);
+      return {
+        head: ['9 in 10 decided by', dateL(addMonths(start, months(r.p90)))],
+        rows: [['Half decided by', dateL(addMonths(start, months(r.p50)))], ['Official 50% time', said(r.p50)], ['Official 90% time', said(r.p90)]],
+        note: `Times published by the Department of Home Affairs (update of ${dateL(TIMES_UPDATE)}), for applications decided last month. Not a promise for your file.`,
+      };
+    },
+  };
+}
+SPECS.times = () => timesSpec();
+for (const c of [...new Set(TIMES.map((r) => r.code))]) SPECS[`times-${c}`] = () => timesSpec(c);
+
+SPECS.waited = () => ({
+  title: 'Is my visa taking longer than usual?', cta: 'Processing times explained',
+  exemple: (v) => `Example for the ${rowLabel(TIMES[clamp(Math.round(v.r ?? 0), 0, TIMES.length - 1)])}, after ${v.w} months of waiting`,
+  inputs: [
+    { id: 'r', label: 'Visa and stream', def: rowIdx('820'), options: TIMES.map((r, i) => ({ value: String(i), label: rowLabel(r) })) },
+    { id: 'w', label: 'Months since you lodged', def: 12, unit: 'months', max: 120, decimals: 1 },
+  ],
+  run: (v) => {
+    const r = TIMES[clamp(Math.round(v.r ?? 0), 0, TIMES.length - 1)];
+    const w = Math.max(0, v.w ?? 0), a = months(r.p50), b = months(r.p90);
+    const band = w <= a ? 'Within the usual time' : w <= b ? 'Slower than half, within 9 in 10' : 'Longer than 9 in 10 files';
+    return {
+      head: ['Your wait so far', band],
+      rows: [['Half were decided within', said(r.p50)], ['9 in 10 were decided within', said(r.p90)], ['Your wait', `${formatMonths(w)}`]],
+      alert: w > b ? 'Check ImmiAccount for a request for information you may have missed' : undefined,
+      note: 'The bands compare your wait with the applications the Department decided last month. A longer wait does not mean a refusal.',
+    };
+  },
+});
+const formatMonths = (m: number) => `${Math.round(m * 10) / 10} month${m === 1 ? '' : 's'}`;
+
+/** Parent visa queue: is a queue date released, and the Department's estimate for a new application. */
+SPECS.parentq = () => {
+  const Q = PARENT.queue;
+  return {
+    title: 'Where your parent visa stands in the queue', cta: 'Parent visas compared',
+    exemple: (v) => `Example for the ${Q[clamp(Math.round(v.q ?? 0), 0, Q.length - 1)].name} with a queue date in ${MONTHS[clamp(Math.round(v.m ?? 1), 1, 12) - 1]} ${v.y}`,
+    inputs: [
+      { id: 'q', label: 'Visa', def: 0, options: Q.map((q, i) => ({ value: String(i), label: q.name })) },
+      { id: 'm', label: 'Month of your queue date (or lodgement)', def: 6, options: MONTH_OPT },
+      { id: 'y', label: 'Year of your queue date (or lodgement)', def: 2020, max: 2030 },
+    ],
+    run: (v) => {
+      const q = Q[clamp(Math.round(v.q ?? 0), 0, Q.length - 1)];
+      const y = Math.round(v.y ?? 2020), m = clamp(Math.round(v.m ?? 6), 1, 12);
+      const [ry, rm] = q.released.split('-').map(Number);
+      const gap = (y - ry) * 12 + (m - rm);
+      const years = q.contributory ? PARENT.newApplicationYears.contributory : PARENT.newApplicationYears.nonContributory;
+      return {
+        head: gap <= 0 ? ['Queue date', 'Released for final processing'] : ['Queue dates still ahead of yours', `${gap} month${gap === 1 ? '' : 's'}`],
+        rows: [['Released so far', q.releasedLabel], ['Official estimate for a new application', `${years} years`], ['Official estimate from your date', `${MONTHS[m - 1]} ${y + years}`]],
+        note: `Department of Home Affairs, queue release dates as at ${dateL(PARENT.as_at)}. The months ahead of you are queue dates, not months of waiting: releases depend on the yearly places.`,
+      };
+    },
+  };
+};
+
+/** Which partner visa, what it costs and how long it takes. */
+SPECS.partner = () => ({
+  title: 'Your partner visa: which one, cost and wait', cta: 'Partner visa costs',
+  exemple: (v) => `Example for a couple ${v.w === 1 ? 'in Australia' : 'outside Australia'}, ${v.s === 1 ? 'engaged' : 'married or de facto'}, with ${plural(Math.round(v.c ?? 0), 'child')}`,
+  inputs: [
+    { id: 'w', label: 'Where the applicant is', def: 1, options: [{ value: '1', label: 'In Australia' }, { value: '0', label: 'Outside Australia' }] },
+    { id: 's', label: 'Relationship', def: 0, options: [{ value: '0', label: 'Married or de facto' }, { value: '1', label: 'Engaged, wedding in Australia' }] },
+    { id: 'c', label: 'Children under 18 applying', def: 0, max: 8 },
+    { id: 'pac', label: 'Passport of a Pacific country or Timor-Leste', def: 0, options: YES_NO, avance: true },
+  ],
+  run: (v) => {
+    const code = v.s === 1 ? '300' : v.w === 1 ? '820' : '309';
+    const r = visaCost({ code, children: v.c, pacific: v.pac === 1 });
+    const t = TIMES.find((x) => x.code === code)!;
+    const rows: Array<[string, string]> = [['Visa', visaByCode(code).name], ['Half decided within', said(t.p50)], ['9 in 10 decided within', said(t.p90)]];
+    if (code === '300') rows.push(['Partner visa after the wedding, applicant', money(visaCost({ code: '820', variant: 'pmv', pacific: v.pac === 1 }).total)]);
+    return {
+      head: [`Charge for ${plural(r.people, 'person')}`, money(r.total)], rows,
+      alert: v.s === 1 && v.w === 1 ? 'The 300 is applied for outside Australia: an engaged applicant in Australia usually applies for the 820 once married or de facto' : undefined,
+      note: 'Schedule 1, compilation of 1 November 2026; times from the Department of Home Affairs (update of 2 November 2026). The sponsor pays nothing.',
+      go: [`${code} visa: costs and conditions`, `/en/${slugOf(code)}/`],
+    };
+  },
+});
+
+/** Partner visa routes compared: 300 then 820 against 309 or 820 straight away. */
+SPECS.partnerroute = () => ({
+  title: 'Engaged first, or partner visa now?', cta: 'Partner visa costs',
+  exemple: (v) => `Example for an applicant with ${plural(Math.round(v.c ?? 0), 'child')}`,
+  inputs: [
+    { id: 'c', label: 'Children under 18 applying', def: 0, max: 8 },
+    { id: 'pac', label: 'Passport of a Pacific country or Timor-Leste', def: 0, options: YES_NO },
+  ],
+  run: (v) => {
+    const pac = v.pac === 1;
+    const direct = visaCost({ code: '309', children: v.c, pacific: pac }).total;
+    const pmv = visaCost({ code: '300', children: v.c, pacific: pac }).total + visaCost({ code: '820', variant: 'pmv', children: v.c, pacific: pac }).total;
+    return {
+      head: ['Engaged route costs more by', money(pmv - direct)],
+      rows: [['Partner visa 309 or 820, one charge', money(direct)], ['300, then 820 after the wedding', money(pmv)]],
+      note: 'Both charges of the engaged route are counted: the 300 and the lower partner visa charge for a 300 holder who married the sponsor (item 1124B).',
+    };
+  },
+});
+
+
 /** Main calculator. With `fixed`, the visa is set by the page and its special cases become a field. */
 function costSpec(fixed?: string): MiniSpec {
   const fv = fixed ? visaByCode(fixed) : null;
@@ -221,5 +340,5 @@ export const SPEC_IDS = Object.keys(SPECS);
 /** Page each calculator's link goes to (Tool.astro reads it). */
 export const CTA_PAGE: Record<string, string> = {
   cost: 'home', decision: 'visa-processing-times', deadline: 'second-instalment', compare: 'skilled-visa-costs-compared', pacific: 'pacific-visa-rates',
-  parents: 'parent-visa-costs-compared', stac: 'subsequent-temporary-application-charge', family: 'visa-cost-for-a-family',
+  parents: 'parent-visa-costs-compared', times: 'visa-processing-times', waited: 'visa-processing-times', parentq: 'parent-visa-costs-compared', partner: 'partner-visa-australia-cost', partnerroute: 'partner-visa-australia-cost', stac: 'subsequent-temporary-application-charge', family: 'visa-cost-for-a-family',
 };

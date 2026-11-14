@@ -8,9 +8,9 @@ export default definePage({
   sources: ["regs", "ha_600", "ha_processing"],
   en: {
     slug: 'visitor-visa-600-cost', nav: "Visitor visa 600 cost", card: "Tourist and family visitor visa: outside or inside Australia, Frequent Traveller, Pacific rate.",
-    title: "Visitor Visa 600 Cost 2026: Outside and Inside Australia",
+    title: "Visitor Visa 600 Cost 2026: Tourist Visa Australia Cost",
     description: "Visitor visa 600 cost in 2026: the charge outside Australia, the higher charge inside, the Frequent Traveller stream, and the cost for a family, per person.",
-    h1: "Visitor visa 600 cost, per traveller",
+    h1: "Visitor visa 600 cost: tourist visa Australia cost, per traveller",
     intro: (h) => `The visitor visa 600 cost is ${h.aud(h.V('600').std.base)} per person applying outside Australia, and ${h.aud(h.V('600').onshore!.std)} inside.`,
     resume: (h) => `The Visitor visa, subclass 600, covers tourism, visits to family and business visitor activities for stays of 3, 6 or 12 months. Item 1236 of Schedule 1 charges per person: there is no family application, so a couple with two children lodging from overseas pays four times the base charge, ${h.aud(h.cost({ code: '600', adults: 1, children: 2 }).total)}. In the compilation in force on 1 November 2026, the charge is ${h.aud(h.V('600').std.base)} for an application made outside Australia and ${h.aud(h.V('600').onshore!.std)} for one made inside, for instance to extend a stay. The Frequent Traveller stream has its own, higher charge, given in the conditions below. Holders of a Pacific or Timor-Leste passport pay ${h.aud(h.V('600').pacific!.base)} outside Australia. Representatives of a foreign government applying in that role, and classes of applicants named by the Minister, pay nothing. There is no second instalment.`,
     faqs: (h) => [
