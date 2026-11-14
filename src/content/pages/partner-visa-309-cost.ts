@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t309 = pair('309');
 export default definePage({
   id: 'partner-visa-309-cost', group: 'family', order: 320,
   tool: { kind: 'mini:cost-309' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 309 decision could come"} },
+  mini: { kind: 'mini:times-309', props: { title: 'When a 309 decision could come: the official times' } },
   visa: '309',
   related: ["partner-visa-820-cost", "prospective-marriage-visa-300-cost", "child-visa-101-cost", "visa-cost-for-a-family"],
   sources: ["regs", "ha_309", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('309')}
 <p>You must be outside Australia when you apply. The permanent 100 is assessed later on the same application, without a second charge.</p>
 ${h.feeTable('309')}
 <h2>Partner visa 309 processing time</h2>
-<p>The official tool lists the 309 and the 100 separately. Enter the 50% and 90% times for the 309 below to see when a decision on the provisional stage could come.</p>`,
+<p>The Department of Home Affairs published these times for the 309: half of the applications decided last month took ${t309.p50} or less, and 9 in 10 took ${t309.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates. The tool shows the provisional 309 stage; the permanent 100 has its own times.</p>`,
   },
 });

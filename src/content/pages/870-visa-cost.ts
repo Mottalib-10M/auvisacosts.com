@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t870 = pair('870', 'Visa Application');
 export default definePage({
   id: '870-visa-cost', group: 'parents', order: 560,
   tool: { kind: 'mini:cost-870' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 870 decision could come"} },
+  mini: { kind: 'mini:times-870', props: { title: 'When a 870 decision could come: the official times' } },
   visa: '870',
   related: ["parent-visa-103-cost", "contributory-parent-visa-143-cost", "parent-visa-costs-compared", "visitor-visa-600-cost"],
   sources: ["regs", "ha_870", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('870')}
 <p>The parent must be the biological, adoptive or step-parent, or the parent-in-law, of the approved sponsor. A parent who holds or has applied for a 870 cannot apply for the 103, 143, 804 or 864 at the same time.</p>
 ${h.feeTable('870')}
 <h2>870 visa processing time</h2>
-<p>There are two steps to time: the approval of the parent sponsor, then the visa. Copy the official times for subclass 870 below to see the dates for the visa step.</p>`,
+<p>The Department of Home Affairs publishes the 870 times by stream. For the Visa Application stream, half of the applications decided last month took ${t870.p50} or less, and 9 in 10 took ${t870.p90} or less. The tool above is already filled with these official times: change the day you applied, or the stream, to see your own dates. There are two steps to time: the approval of the parent sponsor, then the visa; the tool starts on the visa step.</p>`,
   },
 });

@@ -9,7 +9,7 @@ import { money, dateL } from './format-l';
 import { TIMES, PARENT, months, said, rowLabel, rowIdx, TIMES_UPDATE } from './times';
 
 const clamp = (x: number, a: number, b: number) => Math.max(a, Math.min(b, x));
-const plural = (k: number, w: string) => `${k} ${w}${k === 1 ? '' : 's'}`;
+const plural = (k: number, w: string) => `${k} ${k === 1 ? w : w === 'child' ? 'children' : `${w}s`}`;
 export const VISA_OPT = VISAS.map((v, i) => ({ value: String(i), label: v.name }));
 export const visaIdx = (code: string) => VISAS.findIndex((v) => v.code === code);
 const visaOf = (x: number | undefined) => VISAS[clamp(Math.round(x ?? 0), 0, VISAS.length - 1)];
@@ -26,21 +26,27 @@ const iso = (y: number, m: number, d: number) => {
 const SPECS: Record<string, (lang: string) => MiniSpec> = {
   cost: () => costSpec(),
   decision: () => ({
+    // No time is filled in for the reader (test-naif 2026-11-14: "6 and 12 months" read as an official answer).
     title: 'When a decision could come', cta: 'How processing times work',
-    exemple: (v) => `Example for an application lodged in ${MONTHS[clamp(Math.round(v.m ?? 1), 1, 12) - 1]} ${v.y}, with times of ${v.p50} and ${v.p90} months`,
+    exemple: (v) => `Example for an application made on ${dateL(iso(v.y ?? 2026, v.m ?? 11, v.d ?? 14))}, no processing time entered yet`,
     inputs: [
-      { id: 'd', label: 'Day you lodged', def: 15, max: 31 },
-      { id: 'm', label: 'Month you lodged', def: 6, options: MONTH_OPT },
-      { id: 'y', label: 'Year you lodged', def: 2026, options: YEAR_OPT },
-      { id: 'p50', label: '50% of applications decided in (months)', def: 6, unit: 'months', max: 120, decimals: 1, help: 'Copy it from the official processing time tool' },
-      { id: 'p90', label: '90% of applications decided in (months)', def: 12, unit: 'months', max: 180, decimals: 1 },
+      { id: 'd', label: 'Day you applied', def: 14, max: 31 },
+      { id: 'm', label: 'Month you applied', def: 11, options: MONTH_OPT },
+      { id: 'y', label: 'Year you applied', def: 2026, options: YEAR_OPT },
+      { id: 'p50', label: 'Time for half of the applications', def: 0, unit: 'months', max: 120, decimals: 1, help: 'Enter it from the Department of Home Affairs processing times guide, if it lists this visa' },
+      { id: 'p90', label: 'Time for 9 in 10 applications', def: 0, unit: 'months', max: 180, decimals: 1 },
     ],
     run: (v) => {
-      const start = iso(v.y ?? 2026, v.m ?? 6, v.d ?? 15);
+      const start = iso(v.y ?? 2026, v.m ?? 11, v.d ?? 14);
       const p50 = Math.max(0, v.p50 ?? 0), p90 = Math.max(p50, v.p90 ?? 0);
+      if (p90 === 0) return {
+        head: ['No date without an official time', 'Enter the two times'],
+        rows: [['Day you applied', dateL(start)]],
+        note: 'We show no date until you enter a time: we do not guess processing times.',
+      };
       return {
         head: ['9 in 10 decided by', dateL(addMonths(start, p90))],
-        rows: [['Half of the applications decided by', dateL(addMonths(start, p50))], ['Lodged on', dateL(start)]],
+        rows: [['Half of the applications decided by', dateL(addMonths(start, p50))], ['Day you applied', dateL(start)]],
         alert: (v.p90 ?? 0) < (v.p50 ?? 0) ? 'The 90% time cannot be shorter than the 50% time: we used the 50% time for both' : undefined,
         note: 'Published times describe applications decided last month, not a promise for yours. Incomplete files, health or character checks and the yearly program caps can make it longer.',
       };
@@ -163,16 +169,18 @@ const SPECS: Record<string, (lang: string) => MiniSpec> = {
 /** Decision dates from the official 50% and 90% times, for every visa and stream, or for one visa (`times-<code>`). */
 function timesSpec(code?: string): MiniSpec {
   const opts = TIMES.map((r, i) => ({ value: String(i), label: code ? (r.stream.replace('State/Territory Government Nominated Regional', 'State or territory nominated') || rowLabel(r)) : rowLabel(r) })).filter((_, i) => !code || TIMES[i].code === code);
-  const rowOf = (v: Record<string, number>) => TIMES[clamp(Math.round(v.r ?? Number(opts[0].value)), 0, TIMES.length - 1)];
+  // Default stream: the one most applicants use (not the first one the official tool lists, e.g. 189 New Zealand).
+  const main = code && MAIN_STREAM[code] ? rowIdx(code, MAIN_STREAM[code]) : Number(opts[0].value);
+  const rowOf = (v: Record<string, number>) => TIMES[clamp(Math.round(v.r ?? main), 0, TIMES.length - 1)];
   const inputs: MiniSpec['inputs'] = [];
-  if (opts.length > 1) inputs.push({ id: 'r', label: code ? 'Stream' : 'Visa and stream', def: Number(opts[0].value), options: opts });
-  inputs.push({ id: 'd', label: 'Day you lodged', def: 14, max: 31 }, { id: 'm', label: 'Month you lodged', def: 11, options: MONTH_OPT }, { id: 'y', label: 'Year you lodged', def: 2026, options: YEAR_OPT });
+  if (opts.length > 1) inputs.push({ id: 'r', label: code ? 'Stream' : 'Visa and stream', def: main, options: opts });
+  inputs.push({ id: 'd', label: 'Day you applied', def: 14, max: 31 }, { id: 'm', label: 'Month you applied', def: 11, options: MONTH_OPT }, { id: 'y', label: 'Year you applied', def: 2026, options: YEAR_OPT });
   return {
     title: code ? `When a ${code} decision could come` : 'How long your visa application could take', cta: 'Processing times explained',
-    exemple: (v) => `Example for the ${rowLabel(rowOf(v))}, lodged on ${dateL(iso(v.y ?? 2026, v.m ?? 11, v.d ?? 14))}`,
+    exemple: (v) => `Example for the ${rowLabel(rowOf(v))}, applied for on ${dateL(iso(v.y ?? 2026, v.m ?? 11, v.d ?? 14))}`,
     inputs,
     run: (v) => {
-      const r = rowOf(v.r === undefined ? { r: Number(opts[0].value) } : v);
+      const r = rowOf(v.r === undefined ? { r: main } : v);
       const start = iso(v.y ?? 2026, v.m ?? 11, v.d ?? 14);
       return {
         head: ['9 in 10 decided by', dateL(addMonths(start, months(r.p90)))],
@@ -182,6 +190,7 @@ function timesSpec(code?: string): MiniSpec {
     },
   };
 }
+const MAIN_STREAM: Record<string, string> = { '189': 'Points-Tested', '186': 'Direct Entry Pathway', '491': 'State/Territory Government Nominated Regional', '494': 'Employer Sponsored', '870': 'Visa Application', '600': 'Tourist', '485': 'Post-Higher Education Work', '500': 'Higher Education Sector', '482': 'Core Skills' };
 SPECS.times = () => timesSpec();
 for (const c of [...new Set(TIMES.map((r) => r.code))]) SPECS[`times-${c}`] = () => timesSpec(c);
 
@@ -207,30 +216,45 @@ SPECS.waited = () => ({
 const formatMonths = (m: number) => `${Math.round(m * 10) / 10} month${m === 1 ? '' : 's'}`;
 
 /** Parent visa queue: is a queue date released, and the Department's estimate for a new application. */
-SPECS.parentq = () => {
-  const Q = PARENT.queue;
+/* Test-naif 2026-11-14: the big "7 months" (queue dates ahead) was read as 7 months of waiting, and a date worked
+ * out by us ("June 2037") looked official. The big figure is now the official status of the date; the gap is
+ * written as a gap between two dates, and the only estimate shown is the Department's, for a new application. */
+const Q = PARENT.queue;
+const QUEUE_YEARS = Array.from({ length: 2026 - 2005 + 1 }, (_, i) => 2005 + i).map((y) => ({ value: String(y), label: String(y) }));
+const gapWords = (g: number) => { const y = Math.floor(g / 12), m = g % 12; return [y ? plural(y, 'year') : '', m ? plural(m, 'month') : ''].filter(Boolean).join(' and '); };
+function parentqSpec(code?: string): MiniSpec {
+  const fixed = code ? Q.findIndex((q) => q.code === code) : -1;
+  const qOf = (v: Record<string, number>) => Q[fixed >= 0 ? fixed : clamp(Math.round(v.q ?? 0), 0, Q.length - 1)];
+  const inputs: MiniSpec['inputs'] = [];
+  if (fixed < 0) inputs.push({ id: 'q', label: 'Visa', def: 0, options: Q.map((q, i) => ({ value: String(i), label: q.name })) });
+  inputs.push(
+    { id: 'm', label: 'Month you applied (your queue date)', def: fixed >= 0 ? 11 : 6, options: MONTH_OPT },
+    { id: 'y', label: 'Year you applied (your queue date)', def: fixed >= 0 ? 2026 : 2019, options: QUEUE_YEARS, help: 'Not applied yet? Choose this month and year to see where a new application would start' },
+  );
   return {
-    title: 'Where your parent visa stands in the queue', cta: 'Parent visas compared',
-    exemple: (v) => `Example for the ${Q[clamp(Math.round(v.q ?? 0), 0, Q.length - 1)].name} with a queue date in ${MONTHS[clamp(Math.round(v.m ?? 1), 1, 12) - 1]} ${v.y}`,
-    inputs: [
-      { id: 'q', label: 'Visa', def: 0, options: Q.map((q, i) => ({ value: String(i), label: q.name })) },
-      { id: 'm', label: 'Month of your queue date (or lodgement)', def: 6, options: MONTH_OPT },
-      { id: 'y', label: 'Year of your queue date (or lodgement)', def: 2020, max: 2030 },
-    ],
+    title: code ? `When a ${code} decision could come: the parent queue` : 'Where your parent visa stands in the queue', cta: 'Parent visas compared',
+    exemple: (v) => `Example for the ${qOf(v).name} with a queue date in ${MONTHS[clamp(Math.round(v.m ?? 1), 1, 12) - 1]} ${v.y}`,
+    inputs,
     run: (v) => {
-      const q = Q[clamp(Math.round(v.q ?? 0), 0, Q.length - 1)];
-      const y = Math.round(v.y ?? 2020), m = clamp(Math.round(v.m ?? 6), 1, 12);
+      const q = qOf(v);
+      const y = Math.round(v.y ?? 2019), m = clamp(Math.round(v.m ?? 6), 1, 12);
       const [ry, rm] = q.released.split('-').map(Number);
       const gap = (y - ry) * 12 + (m - rm);
       const years = q.contributory ? PARENT.newApplicationYears.contributory : PARENT.newApplicationYears.nonContributory;
+      const rows: Array<[string, string]> = [['Released so far', q.releasedLabel], ['Your queue date', `${MONTHS[m - 1]} ${y}`]];
+      if (gap > 0) rows.push(['Gap between the two dates', gapWords(gap)]);
+      rows.push(['Department’s estimate for an application made now', `about ${years} years`]);
       return {
-        head: gap <= 0 ? ['Queue date', 'Released for final processing'] : ['Queue dates still ahead of yours', `${gap} month${gap === 1 ? '' : 's'}`],
-        rows: [['Released so far', q.releasedLabel], ['Official estimate for a new application', `${years} years`], ['Official estimate from your date', `${MONTHS[m - 1]} ${y + years}`]],
-        note: `Department of Home Affairs, queue release dates as at ${dateL(PARENT.as_at)}. The months ahead of you are queue dates, not months of waiting: releases depend on the yearly places.`,
+        head: gap <= 0 ? ['Your queue date', 'Released for final processing'] : ['Your queue date', 'Not released yet'],
+        alert: gap > 0 ? 'This is a queue, not a processing time: no decision date can be worked out from it' : undefined,
+        rows,
+        note: `Department of Home Affairs, parent visa queue release dates as at ${dateL(PARENT.as_at)}. Dates are released as yearly places allow, so the gap is not a number of months to wait.`,
       };
     },
   };
-};
+}
+SPECS.parentq = () => parentqSpec();
+for (const q of Q) SPECS[`parentq-${q.code}`] = () => parentqSpec(q.code);
 
 /** Which partner visa, what it costs and how long it takes. */
 SPECS.partner = () => ({
@@ -291,8 +315,8 @@ function costSpec(fixed?: string): MiniSpec {
   inputs.push({ id: 'c', label: fv?.separate ? 'Children travelling with you (each applies)' : 'Children under 18 applying with you', def: 0, max: 8 });
   if (!fv?.separate) inputs.push({ id: 'a2', label: 'Other adults travelling with you (each applies)', def: 0, max: 6, showIf: (v) => vOf(v).separate === true });
   if (fv?.separate) inputs.push({ id: 'a2', label: 'Other adults travelling with you (each applies)', def: 0, max: 6 });
-  inputs.push({ id: 'pe', label: 'You have no functional English', def: 0, options: YES_NO, showIf: english });
-  inputs.push({ id: 'ne', label: 'Other adults without functional English', def: 0, max: 6, help: 'Counted up to the number of other adults entered above.', showIf: (v) => english(v) });
+  inputs.push({ id: 'pe', label: 'Can you show functional English?', def: 0, options: [{ value: '0', label: 'Yes' }, { value: '1', label: 'No' }], showIf: english, help: 'The Department checks it from evidence such as an English test result. Without it, a second payment is due' });
+  inputs.push({ id: 'ne', label: 'How many of the other adults cannot show functional English?', def: 0, max: 6, showIf: (v) => english(v), help: 'Counted only up to the number of other adults above' });
   if (!fv || fv.onshore) inputs.push({ id: 'on', label: 'Applying while in Australia', def: 0, options: YES_NO, showIf: (v) => !!vOf(v).onshore });
   if (!fv || fv.code === '870') inputs.push({ id: 'ls', label: 'Stay of up to 5 years rather than 3', def: 0, options: YES_NO, showIf: (v) => vOf(v).code === '870' });
   if (!fv || fv.pacific || fv.variants?.some((x) => x.pacific)) inputs.push({ id: 'pac', label: 'Passport of a Pacific country or Timor-Leste', def: 0, options: YES_NO, avance: true, showIf: (v) => !!vOf(v).pacific || !!vOf(v).variants?.some((x) => x.pacific) });
@@ -308,12 +332,12 @@ function costSpec(fixed?: string): MiniSpec {
       const visa = vOf(v);
       const extraAdults = visa.separate ? Math.round(v.a2 ?? 0) : Math.round(v.a ?? 0);
       const r = visaCost({ code: visa.code, variant: variantOf(v), pacific: v.pac === 1, onshore: v.on === 1, adults: extraAdults, children: v.c, primaryNoEnglish: v.pe === 1, adultsNoEnglish: Math.min(v.ne ?? 0, extraAdults), longStay: v.ls === 1, paper: v.pp === 1 });
-      const rows: Array<[string, string]> = r.lines.map((l) => [l.when === 'later' ? `${l.label} (before grant)` : l.label, money(l.amount)]);
+      const rows: Array<[string, string]> = r.lines.map((l) => [l.when === 'later' ? `${l.label} (paid later, before the visa is granted)` : l.label, money(l.amount)]);
       if (r.secondInstalment) rows.push(['Paid when you apply', money(r.firstInstalment)]);
       const out = {
         head: [r.total === 0 ? 'Charge for this visa' : `Total for ${plural(r.people, 'person')}`, r.total === 0 ? 'Free' : money(r.total)] as [string, string],
         rows,
-        note: `Migration Regulations 1994, Schedule 1 item ${visa.item}, compilation of 1 November 2026. Card surcharges and costs of health checks, police certificates, skills or English tests are not included.`,
+        note: `Not included: card surcharges, health checks, police certificates, skills or English tests. Official charges in force on 1 November 2026 (source: Schedule 1, item ${visa.item}).`,
       };
       return fv ? out : { ...out, go: [`${visa.short}: costs and conditions`, `/en/${slugOf(visa.code)}/`] as [string, string] };
     },

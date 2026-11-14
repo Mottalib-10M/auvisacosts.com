@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { PARENT } from '../../lib/times';
+const Q103 = PARENT.queue.find((q) => q.code === '103')!;
 export default definePage({
   id: 'parent-visa-103-cost', group: 'parents', order: 530,
   tool: { kind: 'mini:cost-103' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 103 decision could come"} },
+  mini: { kind: 'mini:parentq-103' },
   visa: '103',
   related: ["contributory-parent-visa-143-cost", "aged-parent-visa-804-cost", "parent-visa-costs-compared", "870-visa-cost"],
   sources: ["regs", "ha_103", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('103')}
 <p>You need a settled child in Australia, you apply from outside Australia, and you must not have applied for or hold a Sponsored Parent (Temporary) visa. If you have another parent visa application open, it has to be withdrawn when you apply.</p>
 ${h.feeTable('103')}
 <h2>Parent visa 103 processing time</h2>
-<p>The Department's tool gives a 50% and a 90% time for the 103 like for any other visa. Enter them below to see the dates they imply from your lodgement day.</p>`,
+<p>A 103 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q103.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.nonContributory} years for an application made now. The tool above shows where your own queue date stands; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
   },
 });

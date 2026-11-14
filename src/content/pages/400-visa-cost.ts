@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t400 = pair('400');
 export default definePage({
   id: '400-visa-cost', group: 'work', order: 270,
   tool: { kind: 'mini:cost-400' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 400 decision could come"} },
+  mini: { kind: 'mini:times-400', props: { title: 'When a 400 decision could come: the official times' } },
   visa: '400',
   related: ["482-visa-cost", "408-visa-cost", "pacific-visa-rates", "visa-processing-times"],
   sources: ["regs", "ha_400", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('400')}
 <p>Apply outside Australia in most cases, with evidence of the work and the specialist skills. The work must be short-term and must not be ongoing.</p>
 ${h.feeTable('400')}
 <h2>400 visa processing time</h2>
-<p>Copy the 50% and 90% times for subclass 400 from the official tool. For a project with a fixed start date, compare the 90% date with the day you need to arrive.</p>`,
+<p>The Department of Home Affairs published these times for the 400: half of the applications decided last month took ${t400.p50} or less, and 9 in 10 took ${t400.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates. For a project with a fixed start date, compare the 9 in 10 date with the day you need to arrive.</p>`,
   },
 });

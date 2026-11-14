@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { PARENT } from '../../lib/times';
+const Q143 = PARENT.queue.find((q) => q.code === '143')!;
 export default definePage({
   id: 'contributory-parent-visa-143-cost', group: 'parents', order: 510,
   tool: { kind: 'mini:cost-143' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 143 decision could come"} },
+  mini: { kind: 'mini:parentq-143' },
   visa: '143',
   related: ["173-visa-cost", "parent-visa-103-cost", "parent-visa-costs-compared", "second-instalment"],
   sources: ["regs", "ha_143", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('143')}
 <p>You need a child who is a settled Australian citizen, permanent resident or eligible New Zealand citizen, and you apply from outside Australia. Applicants who already hold or have applied for a Sponsored Parent (Temporary) visa cannot apply.</p>
 ${h.feeTable('143')}
 <h2>Contributory Parent visa processing time</h2>
-<p>Enter the official 50% and 90% times below to see what they mean for your lodgement date.</p>`,
+<p>A 143 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q143.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.contributory} years for an application made now. The tool above shows where your own queue date stands; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
   },
 });

@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t491 = pair('491', 'State/Territory Government Nominated Regional');
 export default definePage({
   id: '491-visa-cost', group: 'skilled', order: 130,
   tool: { kind: 'mini:cost-491' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 491 decision could come"} },
+  mini: { kind: 'mini:times-491', props: { title: 'When a 491 decision could come: the official times' } },
   visa: '491',
   related: ["191-visa-cost", "190-visa-cost", "skilled-visa-costs-compared", "494-visa-cost"],
   sources: ["regs", "ha_491", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('491')}
 <p>Relatives who sponsor a 491 applicant must live in a designated regional area. Whether the nomination comes from a state or the sponsorship from a relative, the Department charges the same amount; only the invitation and the conditions of the visa change.</p>
 ${h.feeTable('491')}
 <h2>491 visa processing time</h2>
-<p>Read the current 50% and 90% times for subclass 491 on the official tool and enter them below to see the dates they imply for your application. The times describe last month's decisions and change from one month to the next.</p>`,
+<p>The Department of Home Affairs publishes the 491 times by stream. For the state or territory nominated stream, half of the applications decided last month took ${t491.p50} or less, and 9 in 10 took ${t491.p90} or less. The tool above is already filled with these official times: change the day you applied, or the stream, to see your own dates.</p>`,
   },
 });

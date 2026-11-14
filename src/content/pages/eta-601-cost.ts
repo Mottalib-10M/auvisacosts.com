@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t601 = pair('601');
 export default definePage({
   id: 'eta-601-cost', group: 'temporary', order: 440,
   tool: { kind: 'mini:cost-601' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 601 decision could come"} },
+  mini: { kind: 'mini:times-601', props: { title: 'When a 601 decision could come: the official times' } },
   visa: '601',
   related: ["evisitor-651", "visitor-visa-600-cost", "working-holiday-visa-417-cost", "visa-processing-times"],
   sources: ["regs", "ha_601", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('601')}
 <p>You must be outside Australia, hold an eligible passport, and apply on a mobile device with a camera, through the official app.</p>
 ${h.feeTable('601')}
 <h2>ETA processing time</h2>
-<p>If your ETA is not decided at once, the official tool gives a processing time for subclass 601; enter it below with the day you applied.</p>`,
+<p>The Department of Home Affairs published these times for the 601: half of the applications decided last month were decided in ${t601.p50}, and 9 in 10 in ${t601.p90}. The tool above is already filled with them: change the day you applied to see your own dates.</p>`,
   },
 });

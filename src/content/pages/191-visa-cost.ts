@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t191 = pair('191');
 export default definePage({
   id: '191-visa-cost', group: 'skilled', order: 140,
   tool: { kind: 'mini:cost-191' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 191 decision could come"} },
+  mini: { kind: 'mini:times-191', props: { title: 'When a 191 decision could come: the official times' } },
   visa: '191',
   related: ["491-visa-cost", "494-visa-cost", "skilled-visa-costs-compared", "visa-cost-for-a-family"],
   sources: ["regs", "ha_191", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('191')}
 <p>The main condition is time and income in regional Australia while holding the provisional visa. The charge is due when you lodge, not when the conditions are met, so wait until your evidence is complete before paying.</p>
 ${h.feeTable('191')}
 <h2>191 visa processing time</h2>
-<p>Read the 191 processing times for the Regional Provisional Visas stream on the official tool. Many applicants remain on their provisional visa while waiting, so the decision date matters for travel and work plans more than for status.</p>`,
+<p>The Department of Home Affairs published these times for the 191: half of the applications decided last month took ${t191.p50} or less, and 9 in 10 took ${t191.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates. Many applicants remain on their provisional visa while waiting, so the decision date matters for travel and work plans more than for status.</p>`,
   },
 });

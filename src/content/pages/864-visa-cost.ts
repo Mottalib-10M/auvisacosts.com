@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { PARENT } from '../../lib/times';
+const Q864 = PARENT.queue.find((q) => q.code === '864')!;
 export default definePage({
   id: '864-visa-cost', group: 'parents', order: 550,
   tool: { kind: 'mini:cost-864' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 864 decision could come"} },
+  mini: { kind: 'mini:parentq-864' },
   visa: '864',
   related: ["aged-parent-visa-804-cost", "contributory-parent-visa-143-cost", "parent-visa-costs-compared", "second-instalment"],
   sources: ["regs", "ha_864", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('864')}
 <p>You must be in Australia, of age pension age, with a settled child who sponsors you. Applicants holding or seeking a Sponsored Parent (Temporary) visa cannot apply.</p>
 ${h.feeTable('864')}
 <h2>864 visa processing time</h2>
-<p>Copy the official 50% and 90% times for subclass 864 to see the dates they imply.</p>`,
+<p>A 864 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q864.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.contributory} years for an application made now. The tool above shows where your own queue date stands; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
   },
 });

@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t190 = pair('190');
 export default definePage({
   id: '190-visa-cost', group: 'skilled', order: 120,
   tool: { kind: 'mini:cost-190' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 190 decision could come"} },
+  mini: { kind: 'mini:times-190', props: { title: 'When a 190 decision could come: the official times' } },
   visa: '190',
   related: ["189-visa-cost", "491-visa-cost", "skilled-visa-costs-compared", "second-instalment"],
   sources: ["regs", "ha_190", "ha_processing"],
@@ -22,11 +24,12 @@ export default definePage({
 <h2>190 visa cost for each household size</h2>
 ${h.scenarios('190')}
 <p>The nomination does not change what you pay the Department: a couple with two children pays ${h.aud(h.cost({ code: '190', adults: 1, children: 2 }).total)} whether the nomination came from Victoria, Western Australia or Tasmania. What changes with the state is the list of occupations and the commitment to live there, set out on each state program page.</p>
+<p>Why ${h.aud(h.V('190').std.base)} here and ${h.aud(h.V('189').std.base)} on the 189? Each visa has its own line in the official schedule of charges, and the two lines differ by a few dollars: ${h.aud(h.V('190').std.addU18)} per child on the 190 against ${h.aud(h.V('189').std.addU18)} on the 189. Neither figure is a rounding of ours.</p>
 <h2>Who can apply for the 190</h2>
 ${h.conditions('190')}
 <p>The invitation follows the nomination; once it arrives, you have a fixed period to lodge and pay. If your circumstances changed between the nomination and the application, such as a new partner or a birth, add them to the application at lodgement so that each pays the additional applicant charge rather than a separate visa later.</p>
 ${h.feeTable('190')}
 <h2>190 visa processing time</h2>
-<p>Processing times for nominated applications move with each state program year and with the Department's planning levels. Read the 50% and 90% times for subclass 190 on the official tool, then enter them below to see the dates that follow from your lodgement.</p>`,
+<p>The Department of Home Affairs published these times for the 190: half of the applications decided last month took ${t190.p50} or less, and 9 in 10 took ${t190.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates. Times for nominated applications move with each state program year and with the Department's planning levels.</p>`,
   },
 });

@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t462 = pair('462');
 export default definePage({
   id: '462-visa-cost', group: 'work', order: 250,
   tool: { kind: 'mini:cost-462' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 462 decision could come"} },
+  mini: { kind: 'mini:times-462', props: { title: 'When a 462 decision could come: the official times' } },
   visa: '462',
   related: ["working-holiday-visa-417-cost", "pacific-visa-rates", "eta-601-cost", "visa-processing-times"],
   sources: ["regs", "ha_462", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('462')}
 <p>Holders of an eligible passport apply for the first visa from outside Australia. Read the conditions for your country on the Department's page before paying, since a refused application is generally not refunded.</p>
 ${h.feeTable('462')}
 <h2>Work and Holiday visa processing time</h2>
-<p>Copy the 50% and 90% times for subclass 462 from the official tool, and enter them below with the day you applied.</p>`,
+<p>The Department of Home Affairs published these times for the 462: half of the applications decided last month took ${t462.p50} or less, and 9 in 10 took ${t462.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates.</p>`,
   },
 });

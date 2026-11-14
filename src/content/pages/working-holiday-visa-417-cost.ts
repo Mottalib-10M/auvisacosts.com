@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t417 = pair('417');
 export default definePage({
   id: 'working-holiday-visa-417-cost', group: 'work', order: 240,
   tool: { kind: 'mini:cost-417' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 417 decision could come"} },
+  mini: { kind: 'mini:times-417', props: { title: 'When a 417 decision could come: the official times' } },
   visa: '417',
   related: ["462-visa-cost", "evisitor-651", "eta-601-cost", "visa-processing-times"],
   sources: ["regs", "ha_417", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('417')}
 <p>The first 417 is applied for outside Australia with a working holiday eligible passport. A second or third can be applied for in Australia, if you hold a substantive visa or held one in the 28 days before applying.</p>
 ${h.feeTable('417')}
 <h2>Working Holiday visa processing time</h2>
-<p>The official tool gives separate times for the first, second and third 417. Copy the times for yours and enter them below with the day you applied.</p>`,
+<p>The Department of Home Affairs published these times for the 417: half of the applications decided last month took ${t417.p50} or less, and 9 in 10 took ${t417.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates.</p>`,
   },
 });

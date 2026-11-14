@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { PARENT } from '../../lib/times';
+const Q804 = PARENT.queue.find((q) => q.code === '804')!;
 export default definePage({
   id: 'aged-parent-visa-804-cost', group: 'parents', order: 540,
   tool: { kind: 'mini:cost-804' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 804 decision could come"} },
+  mini: { kind: 'mini:parentq-804' },
   visa: '804',
   related: ["864-visa-cost", "parent-visa-103-cost", "parent-visa-costs-compared", "second-instalment"],
   sources: ["regs", "ha_804", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('804')}
 <p>You need a settled child in Australia and must be of age pension age. If you hold or have applied for a Sponsored Parent (Temporary) visa you cannot apply. An earlier parent visa application must be withdrawn.</p>
 ${h.feeTable('804')}
 <h2>Aged Parent visa processing time</h2>
-<p>Copy the 50% and 90% times for subclass 804 from the official tool, then enter them below to see the dates they give from your lodgement day.</p>`,
+<p>A 804 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q804.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.nonContributory} years for an application made now. The tool above shows where your own queue date stands; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
   },
 });

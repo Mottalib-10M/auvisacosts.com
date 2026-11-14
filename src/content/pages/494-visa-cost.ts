@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t494 = pair('494', 'Employer Sponsored');
 export default definePage({
   id: '494-visa-cost', group: 'work', order: 220,
   tool: { kind: 'mini:cost-494' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 494 decision could come"} },
+  mini: { kind: 'mini:times-494', props: { title: 'When a 494 decision could come: the official times' } },
   visa: '494',
   related: ["186-visa-cost", "191-visa-cost", "491-visa-cost", "second-instalment"],
   sources: ["regs", "ha_494", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('494')}
 <p>The application must be made in the stream for which the employer nominated the occupation. If the employer withdraws the nomination before a decision, the application fails and the charge is generally not refunded.</p>
 ${h.feeTable('494')}
 <h2>494 visa processing time</h2>
-<p>Copy the 50% and 90% times for the 494 stream that applies to you from the official tool. Employer sponsored regional applications are listed by stream.</p>`,
+<p>The Department of Home Affairs publishes the 494 times by stream. For the Employer Sponsored stream, half of the applications decided last month took ${t494.p50} or less, and 9 in 10 took ${t494.p90} or less. The tool above is already filled with these official times: change the day you applied, or the stream, to see your own dates.</p>`,
   },
 });

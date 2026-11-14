@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { PARENT } from '../../lib/times';
+const Q173 = PARENT.queue.find((q) => q.code === '173')!;
 export default definePage({
   id: '173-visa-cost', group: 'parents', order: 520,
   tool: { kind: 'mini:cost-173' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 173 decision could come"} },
+  mini: { kind: 'mini:parentq-173' },
   visa: '173',
   related: ["contributory-parent-visa-143-cost", "parent-visa-103-cost", "parent-visa-costs-compared", "second-instalment"],
   sources: ["regs", "ha_173", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('173')}
 <p>The conditions follow the 143: a settled child in Australia and an application from outside Australia. The 143 application should be made while the 173 is still in effect, or within the period the item allows, to keep the lower charge.</p>
 ${h.feeTable('173')}
 <h2>173 visa processing time</h2>
-<p>Copy the official 50% and 90% times for the 173 into the calculator to see the dates they imply.</p>`,
+<p>A 173 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q173.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.contributory} years for an application made now. The tool above shows where your own queue date stands; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
   },
 });

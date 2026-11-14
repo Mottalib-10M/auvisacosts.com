@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t300 = pair('300');
 export default definePage({
   id: 'prospective-marriage-visa-300-cost', group: 'family', order: 330,
   tool: { kind: 'mini:cost-300' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 300 decision could come"} },
+  mini: { kind: 'mini:times-300', props: { title: 'When a 300 decision could come: the official times' } },
   visa: '300',
   related: ["partner-visa-820-cost", "partner-visa-309-cost", "visa-cost-for-a-family", "pacific-visa-rates"],
   sources: ["regs", "ha_300", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('300')}
 <p>You must be outside Australia when you apply, aged 18 or over, and have met your future spouse in person as adults. After the wedding, the partner visa application must be made while you hold the 300.</p>
 ${h.feeTable('300')}
 <h2>Prospective Marriage visa processing time</h2>
-<p>Copy the 50% and 90% times for subclass 300 from the official tool. Plan the wedding date from the end of the window, not the start: the visa is granted for 9 to 15 months.</p>`,
+<p>The Department of Home Affairs published these times for the 300: half of the applications decided last month took ${t300.p50} or less, and 9 in 10 took ${t300.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates. Plan the wedding date from the end of the window, not the start: the visa is granted for 9 to 15 months.</p>`,
   },
 });

@@ -8,7 +8,7 @@ interface Props { tool: ToolDef; lang?: Locale; primary?: boolean; idPrefix?: st
 const { tool, lang = 'en', primary = false, idPrefix, title } = Astro.props;
 const props = (tool.props ?? {}) as Record<string, any>;
 const mini = tool.kind.startsWith('mini:') ? tool.kind.slice(5) : tool.kind;
-const base = mini.startsWith('cost-') ? 'cost' : mini.startsWith('times-') ? 'times' : mini;
+const base = mini.startsWith('cost-') ? 'cost' : mini.startsWith('times-') ? 'times' : mini.startsWith('parentq-') ? 'parentq' : mini;
 const link = (id?: string) => (id && hasRoute(id, lang) ? route(id, lang) : undefined);
 const numDefaults: Record<string, number> = {};
 for (const [k, v] of Object.entries(props)) if (typeof v === 'number') numDefaults[k] = v;

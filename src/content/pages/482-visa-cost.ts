@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t482 = pair('482', 'Core Skills');
 export default definePage({
   id: '482-visa-cost', group: 'work', order: 230,
   tool: { kind: 'mini:cost-482' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 482 decision could come"} },
+  mini: { kind: 'mini:times-482', props: { title: 'When a 482 decision could come: the official times' } },
   visa: '482',
   related: ["186-visa-cost", "494-visa-cost", "visa-cost-for-a-family", "pacific-visa-rates"],
   sources: ["regs", "ha_482", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('482')}
 <p>The worker applies after, or together with, the employer's nomination of the position. If the nomination is refused, the visa cannot be granted and the charge is generally not refunded.</p>
 ${h.feeTable('482')}
 <h2>482 visa processing time</h2>
-<p>The Department publishes the 482 times by stream. Read the 50% and 90% figures for your stream on the official tool and enter them below to see the dates they give from your lodgement.</p>`,
+<p>The Department of Home Affairs publishes the 482 times by stream. For the Core Skills stream, half of the applications decided last month took ${t482.p50} or less, and 9 in 10 took ${t482.p90} or less. The tool above is already filled with these official times: change the day you applied, or the stream, to see your own dates.</p>`,
   },
 });

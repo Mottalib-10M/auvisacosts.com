@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t651 = pair('651');
 export default definePage({
   id: 'evisitor-651', group: 'temporary', order: 450,
   tool: { kind: 'mini:cost-651' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 651 decision could come"} },
+  mini: { kind: 'mini:times-651', props: { title: 'When a 651 decision could come: the official times' } },
   visa: '651',
   related: ["eta-601-cost", "visitor-visa-600-cost", "working-holiday-visa-417-cost", "visa-processing-times"],
   sources: ["regs", "ha_651", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('651')}
 <p>Apply from outside Australia with a passport of an eligible country. The Department asks you to check every detail before you submit, including your name as it is spelt in the passport.</p>
 ${h.feeTable('651')}
 <h2>eVisitor processing time</h2>
-<p>The official tool gives a processing time for subclass 651 like for other visas; enter it below with the day you applied.</p>`,
+<p>The Department of Home Affairs published these times for the 651: half of the applications decided last month were decided in ${t651.p50}, and 9 in 10 in ${t651.p90}. The tool above is already filled with them: change the day you applied to see your own dates.</p>`,
   },
 });

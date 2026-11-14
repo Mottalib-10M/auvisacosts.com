@@ -23,7 +23,8 @@ export interface CostLine { label: string; amount: number; when: 'now' | 'later'
 export interface CostResult { visa: Visa; fee: Fee; lines: CostLine[]; firstInstalment: number; secondInstalment: number; total: number; people: number; separate: boolean }
 
 export const NON_INTERNET = 80;
-const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? '' : 's'}`;
+const plural = (n: number, w: string) => `${n} ${n === 1 ? w : w === 'child' ? 'children' : `${w}s`}`;
+const aud = (n: number) => `$${n.toLocaleString('en-AU')}`;
 
 export function feeOf(v: Visa, variant = '', pacific = false): Fee {
   const va = v.variants?.find((x) => x.id === variant);
@@ -46,8 +47,8 @@ export function visaCost(i: CostInput): CostResult {
     lines.push({ label: people === 1 ? 'Application charge' : `Application charge, ${plural(people, 'separate application')}`, amount: base * people, when: 'now' });
   } else {
     lines.push({ label: 'Base application charge, main applicant', amount: base, when: 'now' });
-    if (adults) lines.push({ label: `Additional applicant, 18 or over (${adults} × ${fee.add18})`, amount: fee.add18 * adults, when: 'now' });
-    if (children) lines.push({ label: `Additional applicant, under 18 (${children} × ${fee.addU18})`, amount: fee.addU18 * children, when: 'now' });
+    if (adults) lines.push({ label: `Additional applicant, 18 or over (${adults} × ${aud(fee.add18)})`, amount: fee.add18 * adults, when: 'now' });
+    if (children) lines.push({ label: `Additional applicant, under 18 (${children} × ${aud(fee.addU18)})`, amount: fee.addU18 * children, when: 'now' });
   }
   for (const e of v.extra ?? []) if (!/employer/i.test(e.label)) lines.push({ label: e.label, amount: e.amount * (v.separate ? people : 1), when: 'now' });
   if (i.paper && base > 0) lines.push({ label: 'Non-internet application charge', amount: NON_INTERNET * (v.separate ? people : 1), when: 'now' });

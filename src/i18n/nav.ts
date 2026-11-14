@@ -15,7 +15,8 @@ export const inGroup = (g: Group, lang: Locale) => PAGES.filter((p) => p.group =
 export function navCategories(lang: Locale, short = true): NavCategory[] {
   return GROUPS_ORDER.map((g) => ({ label: short ? GROUP_SHORT[g] : GROUP_LABEL[g], links: inGroup(g, lang) })).filter((c) => c.links.length);
 }
-export const navDirect = (_lang: Locale): NavLink[] => [];
+/** Entry by situation for readers who do not know their subclass (test-naif 2026-11-14). */
+export const navDirect = (lang: Locale): NavLink[] => [{ href: `${route('home', lang)}#which-visa`, label: 'Which visa?' }];
 export const footerColumns = (lang: Locale): NavCategory[] => [
   ...navCategories(lang, false),
   { label: 'This site', links: ['home', 'method', 'about', 'contact', 'editorial', 'widget', 'terms', 'privacy', 'cookies'].map((i) => link(i, lang)) },

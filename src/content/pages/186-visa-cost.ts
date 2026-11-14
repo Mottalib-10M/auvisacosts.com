@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t186 = pair('186', 'Direct Entry Pathway');
 export default definePage({
   id: '186-visa-cost', group: 'work', order: 210,
   tool: { kind: 'mini:cost-186' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 186 decision could come"} },
+  mini: { kind: 'mini:times-186', props: { title: 'When a 186 decision could come: the official times' } },
   visa: '186',
   related: ["494-visa-cost", "482-visa-cost", "second-instalment", "visa-cost-for-a-family"],
   sources: ["regs", "ha_186", "regs_downloads", "ha_processing"],
@@ -22,11 +24,12 @@ export default definePage({
 <h2>186 visa cost for the worker and family</h2>
 ${h.scenarios('186')}
 <p>An employer who offers to pay the visa charges can use the totals above: the nomination fee of ${h.aud(h.C.ensNomination)} is in addition and is the employer’s own charge. When the worker has functional English but the partner does not, budget the ${h.aud(h.V('186').second!.adultNoEnglish!)} instalment for the partner, due before the grant.</p>
+<p>The 186 amounts are a few dollars away from the 189: ${h.aud(h.V('186').std.addU18)} per child against ${h.aud(h.V('189').std.addU18)}, and ${h.aud(h.V('186').second!.adultNoEnglish!)} for a partner without functional English against ${h.aud(h.V('189').second!.adultNoEnglish!)}. Each visa has its own line in the official schedule of charges, and we copy each line as written.</p>
 <h2>Who can apply for the 186</h2>
 ${h.conditions('186')}
 <p>The application rests on an approved nomination, so lodge it with or after the employer's nomination. If the nomination is refused, the visa cannot be granted, and the first instalment is generally not refunded: coordinate the two before paying.</p>
 ${h.feeTable('186')}
 <h2>186 visa processing time</h2>
-<p>The Department publishes separate times for each 186 stream. Copy the 50% and 90% figures for your stream from the official tool to see the dates that follow from your lodgement.</p>`,
+<p>The Department of Home Affairs publishes the 186 times by stream. For the Direct Entry Pathway stream, half of the applications decided last month took ${t186.p50} or less, and 9 in 10 took ${t186.p90} or less. The tool above is already filled with these official times: change the day you applied, or the stream, to see your own dates.</p>`,
   },
 });

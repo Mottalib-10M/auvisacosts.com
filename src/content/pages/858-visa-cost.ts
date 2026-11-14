@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t858 = pair('858');
 export default definePage({
   id: '858-visa-cost', group: 'skilled', order: 150,
   tool: { kind: 'mini:cost-858' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 858 decision could come"} },
+  mini: { kind: 'mini:times-858', props: { title: 'When a 858 decision could come: the official times' } },
   visa: '858',
   related: ["189-visa-cost", "190-visa-cost", "skilled-visa-costs-compared", "second-instalment"],
   sources: ["regs", "ha_858", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('858')}
 <p>The application must be lodged within the period the invitation states. An applicant in Australia must hold a substantive visa or one of the bridging visas listed in the item.</p>
 ${h.feeTable('858')}
 <h2>858 visa processing time</h2>
-<p>Copy the official 50% and 90% times into the calculator below to see the decision dates they imply.</p>`,
+<p>The Department of Home Affairs published these times for the 858: half of the applications decided last month took ${t858.p50} or less, and 9 in 10 took ${t858.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates.</p>`,
   },
 });

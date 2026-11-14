@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t408 = pair('408', 'Entertainment Activities');
 export default definePage({
   id: '408-visa-cost', group: 'work', order: 260,
   tool: { kind: 'mini:cost-408' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 408 decision could come"} },
+  mini: { kind: 'mini:times-408', props: { title: 'When a 408 decision could come: the official times' } },
   visa: '408',
   related: ["400-visa-cost", "482-visa-cost", "visa-cost-for-a-family", "visa-processing-times"],
   sources: ["regs", "ha_408", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('408')}
 <p>You can apply in or outside Australia, with the sponsor or supporter your stream requires. An application in Australia must be made while you hold a substantive visa, or within 28 days after it ends.</p>
 ${h.feeTable('408')}
 <h2>408 visa processing time</h2>
-<p>The official tool lists the 408 by stream. Enter the times for your stream with the day you applied to see the dates they imply.</p>`,
+<p>The Department of Home Affairs publishes the 408 times by stream. For the Entertainment Activities stream, half of the applications decided last month took ${t408.p50} or less, and 9 in 10 took ${t408.p90} or less. The tool above is already filled with these official times: change the day you applied, or the stream, to see your own dates.</p>`,
   },
 });

@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t101 = pair('101');
 export default definePage({
   id: 'child-visa-101-cost', group: 'family', order: 340,
   tool: { kind: 'mini:cost-101' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 101 decision could come"} },
+  mini: { kind: 'mini:times-101', props: { title: 'When a 101 decision could come: the official times' } },
   visa: '101',
   related: ["partner-visa-309-cost", "partner-visa-820-cost", "visa-cost-for-a-family", "parent-visa-costs-compared"],
   sources: ["regs", "ha_101", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('101')}
 <p>The child must be single and dependent. The 101 is applied for outside Australia and the 802 inside; the charge does not change with the place.</p>
 ${h.feeTable('101')}
 <h2>Child visa processing time</h2>
-<p>The Department lists the 101 and the 802 separately in its processing time tool. Enter the 50% and 90% times for the subclass you applied for to see the dates they imply.</p>`,
+<p>The Department of Home Affairs published these times for the 101: half of the applications decided last month took ${t101.p50} or less, and 9 in 10 took ${t101.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates. The Department lists the 101 and the 802 separately; the tool shows the 101.</p>`,
   },
 });

@@ -27,6 +27,6 @@ ${h.conditions('020')}
 <p>You must be in Australia and hold a bridging visa A or B linked to a pending substantive visa application or a judicial review.</p>
 ${h.feeTable('020')}
 <h2>Bridging visa B processing time</h2>
-<p>The official tool may list a time for subclass 020. Enter it below with the day you applied and compare the result with your planned departure date.</p>`,
+<p>The bridging visa B was not among the processing times the Department published when we read them on ${h.date('2026-11-14')}, so we show no date for it. If the Department gives you a time, enter it in the tool above with the day you applied and compare the result with your planned departure date.</p>`,
   },
 });

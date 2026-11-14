@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t189 = pair('189', 'Points-Tested');
 export default definePage({
   id: '189-visa-cost', group: 'skilled', order: 110,
   tool: { kind: 'mini:cost-189' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 189 decision could come"} },
+  mini: { kind: 'mini:times-189', props: { title: 'When a 189 decision could come: the official times' } },
   visa: '189',
   related: ["190-visa-cost", "491-visa-cost", "skilled-visa-costs-compared", "second-instalment"],
   sources: ["regs", "ha_189", "ha_processing"],
@@ -22,11 +24,12 @@ export default definePage({
 <h2>189 visa cost for a single applicant, a couple and a family</h2>
 ${h.scenarios('189')}
 <p>The table shows why the family matters more than the subclass: the partner charge is half of the main charge and each child about a quarter. If your partner cannot show functional English with a test score or a passport from an English-speaking country, set aside the second instalment as well; it is requested only when the case officer is ready to grant, but it must be paid before the visa is issued.</p>
+<p>The 190, 491 and 186 cost ${h.aud(h.V('190').std.base)} for the main applicant, a few dollars more than the 189, and ${h.aud(h.V('190').std.addU18)} per child instead of ${h.aud(h.V('189').std.addU18)}: each visa has its own line in the official schedule of charges, and we copy each line as it is written.</p>
 <h2>Who can apply for the 189</h2>
 ${h.conditions('189')}
 <p>An invitation comes only after an expression of interest in SkillSelect and a points score of your own; the ${h.a('home', 'calculator on the home page')} shows the charge, and the points themselves are worked out on a separate site, immigrationpoints.com. You pay nothing to lodge an expression of interest: the charge falls due on the day you apply after the invitation.</p>
 ${h.feeTable('189')}
 <h2>189 visa processing time</h2>
-<p>The Department publishes the time in which 50% and 90% of 189 applications were decided last month, points-tested stream apart from the New Zealand stream. Copy the two figures from the official tool into the calculator below to turn them into dates from your lodgement day.</p>`,
+<p>The Department of Home Affairs publishes the 189 times by stream. For the Points-Tested stream, half of the applications decided last month took ${t189.p50} or less, and 9 in 10 took ${t189.p90} or less. The tool above is already filled with these official times: change the day you applied, or the stream, to see your own dates.</p>`,
   },
 });

@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t600 = pair('600', 'Tourist');
 export default definePage({
   id: 'visitor-visa-600-cost', group: 'temporary', order: 430,
   tool: { kind: 'mini:cost-600' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 600 decision could come"} },
+  mini: { kind: 'mini:times-600', props: { title: 'When a 600 decision could come: the official times' } },
   visa: '600',
   related: ["eta-601-cost", "evisitor-651", "870-visa-cost", "visa-processing-times"],
   sources: ["regs", "ha_600", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('600')}
 <p>The Tourist stream can be applied for in or outside Australia; the Sponsored Family and Business Visitor streams only outside. Some passport holders can use a free eVisitor or an ETA instead, which costs much less than a 600.</p>
 ${h.feeTable('600')}
 <h2>Visitor visa 600 processing time</h2>
-<p>Visitor applications are listed by stream and by place of lodgement in the official tool. Copy the 50% and 90% times for your stream and enter them below with the day you applied.</p>`,
+<p>The Department of Home Affairs publishes the 600 times by stream. For the Tourist stream, half of the applications decided last month took ${t600.p50} or less, and 9 in 10 took ${t600.p90} or less. The tool above is already filled with these official times: change the day you applied, or the stream, to see your own dates.</p>`,
   },
 });

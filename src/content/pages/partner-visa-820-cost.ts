@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t820 = pair('820');
 export default definePage({
   id: 'partner-visa-820-cost', group: 'family', order: 310,
   tool: { kind: 'mini:cost-820' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 820 decision could come"} },
+  mini: { kind: 'mini:times-820', props: { title: 'When a 820 decision could come: the official times' } },
   visa: '820',
   related: ["partner-visa-309-cost", "prospective-marriage-visa-300-cost", "visa-cost-for-a-family", "pacific-visa-rates"],
   sources: ["regs", "ha_820", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('820')}
 <p>Apply in Australia, not in immigration clearance, while holding a visa that does not bar a further application. The permanent 801 stage is assessed later on the same application, without a second charge.</p>
 ${h.feeTable('820')}
 <h2>Partner visa 820 processing time</h2>
-<p>The Department publishes separate times for the 820 stage and the 801 stage. Copy the 50% and 90% times for the 820 from the official tool to see the dates that follow from your lodgement day.</p>`,
+<p>The Department of Home Affairs published these times for the 820: half of the applications decided last month took ${t820.p50} or less, and 9 in 10 took ${t820.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates. The Department publishes separate times for the 820 stage and the 801 stage; the tool shows the 820 stage.</p>`,
   },
 });

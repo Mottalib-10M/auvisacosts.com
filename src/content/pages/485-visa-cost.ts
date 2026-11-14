@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t485 = pair('485', 'Post-Higher Education Work');
 export default definePage({
   id: '485-visa-cost', group: 'temporary', order: 410,
   tool: { kind: 'mini:cost-485' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 485 decision could come"} },
+  mini: { kind: 'mini:times-485', props: { title: 'When a 485 decision could come: the official times' } },
   visa: '485',
   related: ["student-visa-500-cost", "visa-cost-for-a-family", "pacific-visa-rates", "subsequent-temporary-application-charge"],
   sources: ["regs", "ha_485", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('485')}
 <p>Most applicants lodge in Australia, while still holding the student visa or within the period the item allows. Nominate one stream only: the charge is paid for that stream.</p>
 ${h.feeTable('485')}
 <h2>485 visa processing time</h2>
-<p>The official tool lists the 485 by stream. Enter its 50% and 90% times below, from the day you lodged, to plan the end of your student visa and the start of work rights.</p>`,
+<p>The Department of Home Affairs publishes the 485 times by stream. For the Post-Higher Education Work stream, half of the applications decided last month took ${t485.p50} or less, and 9 in 10 took ${t485.p90} or less. The tool above is already filled with these official times: change the day you applied, or the stream, to see your own dates. Use the dates to plan the end of your student visa and the start of work rights.</p>`,
   },
 });

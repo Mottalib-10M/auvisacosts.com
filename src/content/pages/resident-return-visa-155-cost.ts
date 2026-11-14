@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t155 = pair('155');
 export default definePage({
   id: 'resident-return-visa-155-cost', group: 'temporary', order: 460,
   tool: { kind: 'mini:cost-155' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 155 decision could come"} },
+  mini: { kind: 'mini:times-155', props: { title: 'When a 155 decision could come: the official times' } },
   visa: '155',
   related: ["bridging-visa-b-cost", "visitor-visa-600-cost", "pacific-visa-rates", "visa-processing-times"],
   sources: ["regs", "ha_155", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('155')}
 <p>You can apply in or outside Australia. Each family member needs their own application and pays the full charge.</p>
 ${h.feeTable('155')}
 <h2>Resident return visa processing time</h2>
-<p>Copy the 50% and 90% times for subclass 155 from the official tool, and plan your departure after the 90% date if you are in Australia.</p>`,
+<p>The Department of Home Affairs published these times for the 155: half of the applications decided last month took ${t155.p50} or less, and 9 in 10 took ${t155.p90} or less. The tool above is already filled with them: change the day you applied to see your own dates. If you are in Australia, plan your departure after the 9 in 10 date.</p>`,
   },
 });

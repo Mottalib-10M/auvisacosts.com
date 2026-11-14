@@ -1,8 +1,10 @@
 import { definePage } from '../../lib/guide-types';
+import { pair } from '../../lib/times';
+const t500 = pair('500', 'Higher Education Sector');
 export default definePage({
   id: 'student-visa-500-cost', group: 'temporary', order: 420,
   tool: { kind: 'mini:cost-500' },
-  mini: { kind: 'mini:decision', props: {"title": "When a 500 decision could come"} },
+  mini: { kind: 'mini:times-500', props: { title: 'When a 500 decision could come: the official times' } },
   visa: '500',
   related: ["485-visa-cost", "subsequent-temporary-application-charge", "pacific-visa-rates", "visitor-visa-600-cost"],
   sources: ["regs", "ha_500", "ha_processing"],
@@ -27,6 +29,6 @@ ${h.conditions('500')}
 <p>Apply from outside Australia unless you hold a visa that lets you apply inside. Each family member must be on the application at lodgement, or apply later as a subsequent entrant with a charge of their own.</p>
 ${h.feeTable('500')}
 <h2>Student visa 500 processing time</h2>
-<p>Applications lodged outside Australia are processed under Ministerial Direction 115, as the Department's visa page states. Copy the 50% and 90% times for the subclass 500 on the official tool to see the dates that follow from your lodgement day.</p>`,
+<p>The Department of Home Affairs publishes the 500 times by stream. For the Higher Education Sector stream, half of the applications decided last month took ${t500.p50} or less, and 9 in 10 took ${t500.p90} or less. The tool above is already filled with these official times: change the day you applied, or the stream, to see your own dates. Applications lodged outside Australia are processed under Ministerial Direction 115, as the Department's visa page states.</p>`,
   },
 });

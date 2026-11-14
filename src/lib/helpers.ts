@@ -42,16 +42,16 @@ export function helpers(lang: Locale = 'en', strict = false) {
         : [['One person', { code }], ['Two adults, two applications', { code, adults: 1 }], ['Two adults and two children, four applications', { code, adults: 1, children: 2 }]])
       : [['Main applicant alone', { code }], ['Couple', { code, adults: 1 }], ['Couple with two children', { code, adults: 1, children: 2 }]];
     if (v.second?.adultNoEnglish) cases.push(['Couple, partner without functional English', { code, adults: 1, adultsNoEnglish: 1 }]);
-    const rows = cases.map(([l, i]) => { const r = visaCost(i); return [l, aud(r.firstInstalment), r.secondInstalment ? aud(r.secondInstalment) : 'nil', `<strong>${aud(r.total)}</strong>`]; });
+    const rows = cases.map(([l, i]) => { const r = visaCost(i); return [l, aud(r.firstInstalment), r.secondInstalment ? aud(r.secondInstalment) : 'none', `<strong>${aud(r.total)}</strong>`]; });
     return table(['Who applies', 'Paid when you apply', 'Second instalment', 'Total'], rows, caption ?? `Totals worked out from Schedule 1 item ${v.item} of the Migration Regulations 1994, in force on 1 November 2026.`, ['l', 'r', 'r', 'r']);
   };
   /** Every visa: base, adult, child, second instalment; linked to its page. */
   const allFees = (codes?: string[]) => table(['Visa', 'Main applicant', 'Adult joining', 'Child joining', 'Second instalment'], VISAS.filter((v) => !codes || codes.includes(v.code)).map((v) => [
     av(v.code, v.name), aud(v.std.base), v.separate ? 'applies separately' : aud(v.std.add18), v.separate ? 'applies separately' : aud(v.std.addU18),
-    v.second?.perApplicant ? `${aud(v.second.perApplicant)} per applicant` : v.second?.adultNoEnglish ? `${aud(v.second.adultNoEnglish)} per adult without functional English` : 'nil',
+    v.second?.perApplicant ? `${aud(v.second.perApplicant)} per applicant` : v.second?.adultNoEnglish ? `${aud(v.second.adultNoEnglish)} per adult without functional English` : 'none',
   ]), `Standard rates, Schedule 1 of the Migration Regulations 1994, compilation in force on 1 November 2026, read on ${dateL(P.retrieved_at)}.`, ['l', 'r', 'r', 'r', 'l']);
   /** Same household on several visas. */
-  const compareTable = (codes: string[], adults: number, children: number, caption?: string) => table(['Visa', 'Paid when you apply', 'Second instalment', 'Total'], codes.map((c) => { const r = visaCost({ code: c, adults, children }); return [av(c, V(c).name), aud(r.firstInstalment), r.secondInstalment ? aud(r.secondInstalment) : 'nil', `<strong>${aud(r.total)}</strong>`]; }), caption, ['l', 'r', 'r', 'r']);
+  const compareTable = (codes: string[], adults: number, children: number, caption?: string) => table(['Visa', 'Paid when you apply', 'Second instalment', 'Total'], codes.map((c) => { const r = visaCost({ code: c, adults, children }); return [av(c, V(c).name), aud(r.firstInstalment), r.secondInstalment ? aud(r.secondInstalment) : 'none', `<strong>${aud(r.total)}</strong>`]; }), caption, ['l', 'r', 'r', 'r']);
   const pacificTable = () => table(['Visa', 'Standard', 'Pacific or Timor-Leste', 'Saving'], VISAS.filter((v) => v.pacific && v.std.base > 0).map((v) => [av(v.code, v.name), aud(v.std.base), aud(v.pacific!.base), aud(v.std.base - v.pacific!.base)]), `Main applicant, Schedule 1 of the Migration Regulations 1994, compilation in force on 1 November 2026.`, ['l', 'r', 'r', 'r']);
   const secondTable = () => table(['Visa', 'Who pays', 'Amount'], VISAS.filter((v) => v.second).flatMap((v) => {
     const s = v.second!; const out: Array<Array<string | number>> = [];
