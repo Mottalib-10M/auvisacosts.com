@@ -24,7 +24,7 @@ export default definePage({
 <h2>186 visa cost for the worker and family</h2>
 ${h.scenarios('186')}
 <p>An employer who offers to pay the visa charges can use the totals above: the nomination fee of ${h.aud(h.C.ensNomination)} is in addition and is the employer’s own charge. When the worker has functional English but the partner does not, budget the ${h.aud(h.V('186').second!.adultNoEnglish!)} instalment for the partner, due before the grant.</p>
-<p>The 186 amounts are a few dollars away from the 189: ${h.aud(h.V('186').std.addU18)} per child against ${h.aud(h.V('189').std.addU18)}, and ${h.aud(h.V('186').second!.adultNoEnglish!)} for a partner without functional English against ${h.aud(h.V('189').second!.adultNoEnglish!)}. Each visa has its own line in the official schedule of charges, and we copy each line as written.</p>
+<p>Next to the 189, the 186 charges differ by a few dollars per line, as the official schedule sets them; the ${h.a('skilled-visa-costs-compared', 'skilled visa comparison')} lists every line.</p>
 <h2>Who can apply for the 186</h2>
 ${h.conditions('186')}
 <p>The application rests on an approved nomination, so lodge it with or after the employer's nomination. If the nomination is refused, the visa cannot be granted, and the first instalment is generally not refunded: coordinate the two before paying.</p>

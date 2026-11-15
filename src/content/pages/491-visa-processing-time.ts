@@ -29,7 +29,7 @@ ${h.table(TIMES_HEAD, timesRows(['491', '191']), timesCaption, ['l', 'r', 'r'])}
 <h2>The 491 cost, and the 191 after it</h2>
 <p>The 491 charge is ${h.aud(h.V('491').std.base)} for the main applicant, ${h.aud(h.V('491').std.add18)} per adult family member and ${h.aud(h.V('491').std.addU18)} per child, at lodgement. A second instalment of ${h.aud(h.V('491').second!.adultNoEnglish!)} is due for each adult without functional English before the grant. The 191 later costs ${h.aud(h.V('191').std.base)} for the main applicant. The second calculator gives your 491 total; the ${h.a('491-visa-cost', '491 visa cost page')} adds the 191 for the whole family.</p>
 <h2>While you wait</h2>
-<ul><li>Keep your skills assessment and English result valid at the time they are assessed, as the invitation requires.</li><li>Answer requests for health checks and police certificates quickly: the published time keeps running while the Department waits.</li><li>If the second date shown by the calculator has passed, check ImmiAccount for a request you may have missed.</li></ul>
+<ul><li>Keep your skills assessment and English result valid at the time they are assessed, as the invitation requires.</li><li>Answer requests for health checks and police certificates quickly: the published time keeps running while the Department waits.</li><li>If the big date shown by the calculator (“9 in 10 decided by”) has passed, check ImmiAccount for a request you may have missed.</li></ul>
 <p>This site is independent of the Department of Home Affairs. The dates are arithmetic on published figures, not a forecast for your application.</p>`,
   },
 });

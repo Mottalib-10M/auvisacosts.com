@@ -4,7 +4,7 @@ const q143 = PARENT.queue.find((q) => q.code === '143')!;
 const years = PARENT.newApplicationYears.contributory;
 export default definePage({
   id: '143-visa-processing-time', group: 'parents', order: 512,
-  tool: { kind: 'mini:parentq', props: { q: 0, m: 6, y: 2019 } },
+  tool: { kind: 'mini:parentq', props: { q: 0 } },
   mini: { kind: 'mini:cost-143', props: { title: 'What the 143 costs, both instalments' } },
   visa: '143',
   related: ['contributory-parent-visa-143-cost', 'parent-visa-processing-time', '173-visa-cost', 'parent-visa-costs-compared'],
@@ -25,8 +25,9 @@ export default definePage({
 <h2>143 visa processing time: the queue as at ${h.date(PARENT.as_at)}</h2>
 ${h.table(['Visa', 'Acknowledgement', 'Queue assessment reached', 'Released for final processing'], PARENT.queue.map((q) => [q.name, q.acknowledge, q.queueAssessment, q.releasedLabel]), `Department of Home Affairs, Parent visas: queue release dates, as at ${h.date(PARENT.as_at)}, read on 14 November 2026.`, ['l', 'l', 'l', 'l'])}
 <p>The contributory visas (143, 173, 864 and 884) move much faster than the non-contributory Parent (103) and Aged Parent (804), whose new applications the Department estimates at ${PARENT.newApplicationYears.nonContributory} years. The higher cost buys a shorter queue. The ${h.a('parent-visa-processing-time', 'parent visa processing time page')} covers all six.</p>
+<p>In the table, “Queue assessment reached” is how far the Department has got in checking new applications and giving them a queue date; “Released for final processing” is how far the queue itself has moved, the applications now being decided.</p>
 <h2>How to read the tool</h2>
-<p>Enter your queue date, or your lodgement date if you have not received one. If it is on or before the last released month, your application has been released for final processing and the Department will contact you, including to request the second instalment. If it is after, the tool says “Not released yet” and shows the gap between your date and the last one released. That gap is not a time to wait: releases depend on the places set each year and on how many applications each month holds.</p>
+<p>The big figure is the Department's own estimate of the wait for an application made now: about ${PARENT.newApplicationYears.contributory} years for the 143, against about ${PARENT.newApplicationYears.nonContributory} years for the lower-cost 103 and 804, shown just below it. Already applied? Enter your queue date, or your lodgement date if you have not received one. If it is on or before the last released month, the tool says your turn has come: the Department will contact you, including to request the second instalment. If it is after, the tool shows how long your application has already waited; the Department gives no date for applications already in the queue, because releases depend on the places set each year.</p>
 <h2>143 cost, paid in two parts</h2>
 <p>The first instalment is ${h.aud(h.V('143').std.base)} for the main applicant and ${h.aud(h.V('143').std.add18)} for a second parent, at lodgement. The second instalment, ${h.aud(h.V('143').second!.perApplicant!)} per adult, is requested at the end, when the application is released and close to a decision. The second calculator adds both; the ${h.a('contributory-parent-visa-143-cost', 'Contributory Parent visa 143 cost page')} has the details, and the Assurance of Support bond, set separately, is not counted.</p>
 <p>This site is independent of the Department of Home Affairs. The queue dates are copied from its page on the date shown and move during the year.</p>`,

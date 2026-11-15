@@ -26,9 +26,11 @@ ${h.scenarios('173')}
 <p>Over both visas, a couple pays roughly the same as for a direct 143, with two payment dates instead of one. The 173 suits families who can raise the second instalment in two parts or who want the parents in Australia sooner on a temporary basis.</p>
 <h2>Who can apply for the 173</h2>
 ${h.conditions('173')}
-<p>The conditions follow the 143: a settled child in Australia and an application from outside Australia. The 143 application should be made while the 173 is still in effect, or within the period the item allows, to keep the lower charge.</p>
+<p>The conditions follow the 143: a settled child in Australia and an application from outside Australia.</p>
+<h2>How the 173 works, then the 143</h2>
+<ul><li>The 173 spreads the contributory parent cost over two applications: you pay the 173 now, the permanent 143 later.</li><li>The later 143 application costs a holder of a 173 ${h.aud(h.V('143').variants![0].fee.base)} at lodgement plus ${h.aud(h.V('143').variants![0].secondPerAdult!)} per adult before grant. The calculator above adds it below the 173 total, with the cost of the whole route.</li><li>Make the 143 application while the 173 is still in effect, or within the period the item allows, to keep the lower charge.</li></ul>
 ${h.feeTable('173')}
 <h2>173 visa processing time</h2>
-<p>A 173 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q173.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.contributory} years for an application made now. The tool above shows where your own queue date stands; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
+<p>A 173 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q173.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.contributory} years for an application made now: that estimate is the answer the tool above gives, with the other parent queue beside it for comparison; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
   },
 });

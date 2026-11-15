@@ -4,7 +4,7 @@ const contrib = PARENT.newApplicationYears.contributory, non = PARENT.newApplica
 const t870 = pair('870', 'Visa Application'), s870 = pair('870', 'Sponsorship');
 export default definePage({
   id: 'parent-visa-processing-time', group: 'parents', order: 505,
-  tool: { kind: 'mini:parentq', props: { q: 4, m: 6, y: 2015 } },
+  tool: { kind: 'mini:parentq', props: { q: 4 } },
   mini: { kind: 'mini:parents', props: { title: 'Parent visa routes, total charges', n: 2 } },
   related: ['143-visa-processing-time', 'parent-visa-costs-compared', 'parent-visa-103-cost', '870-visa-cost'],
   sources: ['ha_parent_queue', 'ha_processing', 'ha_103', 'ha_143', 'ha_870', 'regs'],
@@ -23,10 +23,10 @@ export default definePage({
     body: (h) => `
 <h2>Parent visa processing time: queue release dates</h2>
 ${h.table(['Visa', 'Acknowledgement', 'Queue assessment reached', 'Released for final processing'], PARENT.queue.map((q) => [q.name, q.acknowledge, q.queueAssessment, q.releasedLabel]), `Department of Home Affairs, Parent visas: queue release dates, as at ${h.date(PARENT.as_at)}, read on 14 November 2026.`, ['l', 'l', 'l', 'l'])}
-<p>The two temporary contributory visas share the queue of their permanent counterpart: the 173 moves with the 143, the 884 with the 864. A temporary visa holder who applies for the permanent visa is assessed separately; the Department's table shows May 2026 for that step.</p>
+<p>“Queue assessment reached” is how far the Department has got in checking new applications and giving them a queue date; “Released for final processing” is how far the queue itself has moved, the applications now being decided. The two temporary contributory visas share the queue of their permanent counterpart: the 173 moves with the 143, the 884 with the 864. A temporary visa holder who applies for the permanent visa is assessed separately; the Department's table shows May 2026 for that step.</p>
 <h2>Estimates for a new application</h2>
 ${h.table(['Visa group', 'Department estimate'], [['Contributory Parent and Contributory Aged Parent (143, 173, 864, 884)', `${contrib} years`], ['Parent and Aged Parent (103, 804)', `${non} years`], ['Sponsored Parent (Temporary) 870, visa application', `${t870.p50} for half, ${t870.p90} for nine in ten`]], 'Parent visa page as at 31 August 2026 and processing times guide of 2 November 2026, read on 14 November 2026.', ['l', 'l'])}
-<p>The tool above places any queue date against the latest release and says whether it is released yet. The gap it shows is between two queue dates, not a time to wait, because the yearly places set the pace.</p>
+<p>The tool above gives one answer, the Department's estimate for an application made now, and puts the other queue beside it so you can compare the two. Enter an older queue date and it says whether that date is released yet, or how long the application has already waited.</p>
 <h2>What the wait costs</h2>
 <p>The contributory visas are faster because the parents pay a large second instalment before the grant, ${h.aud(h.V('143').second!.perApplicant!)} per adult on the 143. The non-contributory Parent visa costs much less, but its queue is the longest. The second calculator compares the totals for one or two parents; the ${h.a('parent-visa-costs-compared', 'parent visa comparison')} details each route, including the 173 then 143 path.</p>
 <p>This site is independent of the Department of Home Affairs. The queue dates and estimates are copied from its page on the date shown; they change during the program year.</p>`,

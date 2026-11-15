@@ -29,6 +29,6 @@ ${h.conditions('864')}
 <p>You must be in Australia, of age pension age, with a settled child who sponsors you. Applicants holding or seeking a Sponsored Parent (Temporary) visa cannot apply.</p>
 ${h.feeTable('864')}
 <h2>864 visa processing time</h2>
-<p>A 864 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q864.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.contributory} years for an application made now. The tool above shows where your own queue date stands; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
+<p>A 864 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q864.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.contributory} years for an application made now: that estimate is the answer the tool above gives, with the other parent queue beside it for comparison; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
   },
 });

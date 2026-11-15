@@ -2,6 +2,7 @@
 import { route, hasRoute, type Locale } from './routes';
 import { PAGES, pageById } from '../lib/guides';
 import type { Group } from '../lib/guide-types';
+import { plainOf } from '../data/visas';
 export interface NavLink { href: string; label: string } export interface NavCategory { label: string; links: NavLink[] }
 const CORE: Record<string, string> = { home: 'Visa cost calculator', method: 'Method and sources', about: 'About', widget: 'Embed the calculator', contact: 'Contact', editorial: 'Editorial policy', privacy: 'Privacy', terms: 'Legal notice', cookies: 'Cookies' };
 /** Short labels for the top menu (one or two words, MASTERFACTORY §10.3); full labels in the footer and on the home page. */
@@ -12,8 +13,16 @@ export const groupLabel = (g: Group, _lang: Locale = 'en') => GROUP_LABEL[g];
 export const label = (id: string, _lang: Locale = 'en') => CORE[id] ?? pageById(id)?.en.nav ?? id;
 const link = (id: string, lang: Locale): NavLink => ({ href: route(id, lang), label: label(id, lang) });
 export const inGroup = (g: Group, lang: Locale) => PAGES.filter((p) => p.group === g && hasRoute(p.id, lang)).map((p) => link(p.id, lang));
+/** Top menu: what the reader wants to do, number in brackets (test-naif 2026-11-14, tour 2: "the menu is all numbers").
+ *  The footer keeps the page titles. */
+const menuLabel = (id: string, lang: Locale) => {
+  if (id === '801-visa') return 'Partner visa, permanent stage (801)';
+  const p = pageById(id); const plain = p?.visa && id !== 'partner-visa-australia-cost' ? plainOf(p.visa) : undefined;
+  if (!plain) return label(id, lang);
+  return id.endsWith('-processing-time') ? `${plain}: waiting time` : id.endsWith('-cost') ? `${plain}: cost` : plain;
+};
 export function navCategories(lang: Locale, short = true): NavCategory[] {
-  return GROUPS_ORDER.map((g) => ({ label: short ? GROUP_SHORT[g] : GROUP_LABEL[g], links: inGroup(g, lang) })).filter((c) => c.links.length);
+  return GROUPS_ORDER.map((g) => ({ label: short ? GROUP_SHORT[g] : GROUP_LABEL[g], links: short ? PAGES.filter((p) => p.group === g && hasRoute(p.id, lang)).map((p) => ({ href: route(p.id, lang), label: menuLabel(p.id, lang) })) : inGroup(g, lang) })).filter((c) => c.links.length);
 }
 /** Entry by situation for readers who do not know their subclass (test-naif 2026-11-14). */
 export const navDirect = (lang: Locale): NavLink[] => [{ href: `${route('home', lang)}#which-visa`, label: 'Which visa?' }];

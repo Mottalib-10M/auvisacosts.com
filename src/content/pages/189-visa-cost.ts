@@ -23,8 +23,8 @@ export default definePage({
     body: (h) => `
 <h2>189 visa cost for a single applicant, a couple and a family</h2>
 ${h.scenarios('189')}
-<p>The table shows why the family matters more than the subclass: the partner charge is half of the main charge and each child about a quarter. If your partner cannot show functional English with a test score or a passport from an English-speaking country, set aside the second instalment as well; it is requested only when the case officer is ready to grant, but it must be paid before the visa is issued.</p>
-<p>The 190, 491 and 186 cost ${h.aud(h.V('190').std.base)} for the main applicant, a few dollars more than the 189, and ${h.aud(h.V('190').std.addU18)} per child instead of ${h.aud(h.V('189').std.addU18)}: each visa has its own line in the official schedule of charges, and we copy each line as it is written.</p>
+<p>Within the skilled visas, the size of the family changes the total more than the choice of visa: on the 189 the partner pays half of the main charge and each child about a quarter. Across visa types the rules change completely: on a 482 the partner pays the full main charge. If your partner cannot show functional English with a test score or a passport from an English-speaking country, set aside the second instalment as well; it is requested only when the case officer is ready to grant, but it must be paid before the visa is issued.</p>
+<p>The 190, 491 and 186 differ from the 189 by a few dollars only, line by line as the official schedule writes them; the ${h.a('skilled-visa-costs-compared', 'skilled visas compared')} page sets them side by side.</p>
 <h2>Who can apply for the 189</h2>
 ${h.conditions('189')}
 <p>An invitation comes only after an expression of interest in SkillSelect and a points score of your own; the ${h.a('home', 'calculator on the home page')} shows the charge, and the points themselves are worked out on a separate site, immigrationpoints.com. You pay nothing to lodge an expression of interest: the charge falls due on the day you apply after the invitation.</p>

@@ -29,6 +29,6 @@ ${h.conditions('103')}
 <p>You need a settled child in Australia, you apply from outside Australia, and you must not have applied for or hold a Sponsored Parent (Temporary) visa. If you have another parent visa application open, it has to be withdrawn when you apply.</p>
 ${h.feeTable('103')}
 <h2>Parent visa 103 processing time</h2>
-<p>A 103 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q103.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.nonContributory} years for an application made now. The tool above shows where your own queue date stands; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
+<p>A 103 visa has no processing time in months: applications wait in the parent queue and are released as the yearly places allow. On ${h.date(PARENT.as_at)} the Department had released applications ${Q103.releasedLabel.replace(/^Lodged\/queued/, 'lodged or queued')}, and it estimates about ${PARENT.newApplicationYears.nonContributory} years for an application made now: that estimate is the answer the tool above gives, with the other parent queue beside it for comparison; the ${h.a('parent-visa-processing-time', 'parent visa processing time page')} explains the queue.</p>`,
   },
 });

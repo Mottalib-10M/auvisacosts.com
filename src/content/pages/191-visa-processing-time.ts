@@ -30,6 +30,6 @@ ${h.conditions('191')}
 <h2>191 cost for the family</h2>
 <p>The 191 charge is ${h.aud(h.V('191').std.base)} for the main applicant, ${h.aud(h.V('191').std.add18)} per adult family member and ${h.aud(h.V('191').std.addU18)} per child under 18. With a passport of a Pacific country or Timor-Leste, the main applicant pays ${h.aud(h.V('191').pacific!.base)}. There is no second instalment. The second calculator gives your total; the ${h.a('191-visa-cost', '191 visa cost page')} has the full table.</p>
 <h2>Reading your dates</h2>
-<p>The first date is when half of the applications lodged on your day would be decided at last month's pace; the second, nine in ten. Past the second date, your application is among the slowest tenth, which is a reason to check ImmiAccount rather than a sign of a problem. The ${h.a('visa-approval-time', 'visa approval time page')} compares any wait with the published bands. This site is independent of the Department of Home Affairs.</p>`,
+<p>The big date in the tool is when nine in ten applications lodged on your day would be decided at last month's pace; the smaller “Half decided by” date is when half would be. Past the big date, your application is among the slowest tenth, which is a reason to check ImmiAccount rather than a sign of a problem. The ${h.a('visa-approval-time', 'visa approval time page')} compares any wait with the published bands. This site is independent of the Department of Home Affairs.</p>`,
   },
 });

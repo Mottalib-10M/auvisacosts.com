@@ -15,6 +15,7 @@ import { helpers } from '../lib/helpers';
 import { t } from '../i18n/ui';
 import { LAST_UPDATED, AUTHOR_NAME } from '../data/site-config';
 import { displayDate } from '../lib/format';
+import { PARENT } from '../lib/times';
 import { faqSchema, webApplicationSchema, websiteSchema, organizationSchema } from '../lib/seo';
 const lang = 'en';
 const ui = t(lang);
@@ -42,15 +43,15 @@ const resume = `An Australian visa is paid through its visa application charge, 
 ---
 <PageLayout title={title} description={description} lang={lang} jsonLd={jsonLd} faqs={faqs} breadcrumbs={[]}>
   <header class="mb-3">
-    <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-accent-600">Visa application charges · rates from 1 July 2026</p>
+    <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-accent-600">Visa application charges · official charges in force on 1 November 2026</p>
     <h1 class="mt-0 text-[1.75rem] font-bold text-navy-900 max-sm:leading-tight sm:text-3xl md:text-4xl">Cost of an Australia visa: the calculator, every person counted</h1>
     <p class="mt-2 text-base text-navy-700 sm:text-lg">This calculator adds up the cost of an Australia visa for each person on {count} visas: a couple with two children pays {aud(fam189.total)} on a skilled 189, {aud(fam482.total)} on a 482.</p>
     <p data-chrome data-independant class="mt-1 text-xs font-medium text-navy-600">{ui.independent}</p>
   </header>
+  <p class="mb-2 text-sm text-navy-700">No need to know your visa number: pick what you want to do in the first box, the number is in brackets. <a href="#which-visa" class="font-medium text-accent-700 underline">Every situation explained ↓</a></p>
   <div data-outil class="mb-4"><Tool tool={{ kind: 'mini:cost', props: { a: 1, c: 2 } }} primary={true} seedKey="home" /></div>
-  <p class="-mt-2 mb-3 text-sm text-navy-700">Do not know your visa number? <a href="#which-visa" class="font-medium text-accent-700 underline">Start from what you want to do ↓</a></p>
   <Clamp text={resume} id="clamp-home" lang={lang} class="mb-3" />
-  <p class="mb-8 text-sm text-navy-600">Charges updated on <time datetime={LAST_UPDATED}>{displayDate(LAST_UPDATED, 'en-AU')}</time> in the compilation of 1 November 2026 · {AUTHOR_NAME} · <a href={route('method', lang)} class="underline hover:text-navy-900">How the totals are worked out</a> · <a href={route('about', lang)} class="underline hover:text-navy-900">About this site</a></p>
+  <p class="mb-8 text-sm text-navy-600">Official charges in force on 1 November 2026, checked on <time datetime={LAST_UPDATED}>{displayDate(LAST_UPDATED, 'en-AU')}</time> · {AUTHOR_NAME} · <a href={route('method', lang)} class="underline hover:text-navy-900">How the totals are worked out</a> · <a href={route('about', lang)} class="underline hover:text-navy-900">About this site</a></p>
 
   <div class="prose prose-slate max-w-none">
     <h2 id="which-visa">Which visa? Start from what you want to do</h2>
@@ -62,8 +63,8 @@ const resume = `An Australian visa is paid through its visa application charge, 
         <li><Fragment set:html={av('300', 'Prospective Marriage visa 300')} />: you are engaged and will marry in Australia.</li>
         <li><Fragment set:html={a('partner-visa', 'Not sure? Which partner visa fits')} /></li></ul></section>
       <section class="rounded-lg border border-navy-200 p-3"><h3 class="mt-0 text-base font-semibold text-navy-900">Bring my mother or father</h3><ul class="mt-1 space-y-1 text-sm text-navy-700">
-        <li><Fragment set:html={av('143', 'Contributory Parent visa 143')} /> or the two-step <Fragment set:html={av('173', '173')} />: costs much more, shorter queue.</li>
-        <li><Fragment set:html={av('103', 'Parent visa 103')} />: costs much less, far longer queue.</li>
+        <li><Fragment set:html={av('143', 'Contributory Parent visa 143')} /> or the two-step <Fragment set:html={av('173', '173')} />: costs much more, shorter queue (about {PARENT.newApplicationYears.contributory} years, Department estimate).</li>
+        <li><Fragment set:html={av('103', 'Parent visa 103')} />: costs much less, far longer queue (about {PARENT.newApplicationYears.nonContributory} years). <Fragment set:html={a('parent-visa-processing-time', 'Compare the two queues')} /></li>
         <li><Fragment set:html={av('804', 'Aged Parent 804')} /> and <Fragment set:html={av('864', '864')} />: parents in Australia, old enough for the age pension.</li>
         <li><Fragment set:html={av('870', 'Sponsored Parent visa 870')} />: a stay of up to 3 or 5 years, not permanent.</li>
         <li><Fragment set:html={a('parent-visa-costs-compared', 'All parent visas compared')} /></li></ul></section>
@@ -89,11 +90,11 @@ const resume = `An Australian visa is paid through its visa application charge, 
         <li><Fragment set:html={av('155', 'Resident Return visa 155')} />: a permanent resident or former citizen who wants to travel back.</li>
         <li><Fragment set:html={av('020', 'Bridging visa B')} />: leave and come back while an application is being decided.</li></ul></section>
     </div>
-    <p>The full list of charges, row by row, is on the <Fragment set:html={a('australian-visa-fees-2026', 'visa fees 2026 page')} />. Visas we have not covered are left out rather than half-priced.</p>
+    <p>The full list of charges, row by row, is on the <Fragment set:html={a('australian-visa-fees-2026', 'visa fees 2026 page')} />. Visas we have not checked line by line are left out, rather than shown with an incomplete price.</p>
 
     <h2>How the calculator adds up the cost of an Australia visa</h2>
-    <p>Every visa class has an item in Schedule 1 of the Migration Regulations 1994. The item gives the first instalment in up to three amounts: the base application charge, paid once for the main applicant; the additional applicant charge for an applicant who is at least 18; and the additional applicant charge for an applicant who is less than 18. The item also says, when there is one, the amount of the second instalment and who pays it. Regulation 2.12C adds two components that do not depend on the visa: the subsequent temporary application charge of {aud(C.subsequentTemporary)}, and the non-internet application charge of {aud(C.nonInternet)}, payable when an application that could be made online is made on paper.</p>
-    <p>The calculator applies those rules in that order. Choose the visa, enter the number of adults and children who apply with you, and it lists each line with its amount, then the total paid at lodgement and the total paid before grant. The advanced fields hold the cases that change the amount: the Pacific rate, an application made in Australia for a visa that charges more onshore, a paper application, a stream with its own charge, and the English test that triggers a second instalment.</p>
+    <p>Each visa has its own price list, set by law. It has up to three amounts: one for the main applicant, one for each family member aged 18 or over, and a lower one for each child under 18. Some visas add a second payment, asked for later, before the visa is granted. Two extra fees can apply on any visa: {aud(C.subsequentTemporary)} if you already hold a temporary visa in Australia and apply for another one in Australia, and {aud(C.nonInternet)} if you apply on paper when you could apply online. (Source: Schedule 1 of the Migration Regulations 1994, one item per visa, and regulation 2.12C for the two extra fees.)</p>
+    <p>The calculator adds those amounts in that order. Choose what you want to do, enter the number of adults and children who apply with you, and it lists each line, then what you pay when you apply and what you pay later. The optional fields cover the cases that change the price: a Pacific passport, applying while in Australia, a paper application, a special stream, and the English test that can bring a second payment.</p>
     <Fragment set:html={h.compareTable(['189', '482', '500', '820', '600'], 1, 2, 'Couple with two children under 18, standard rates. Visitor visa: four separate applications.')} />
     <p>The same family pays very different totals depending on the visa. On a 189 the partner pays half the main charge and each child about a quarter. On a 482 the partner pays the full main charge. On a visitor visa there is no family application: each of the four travellers lodges and pays their own, which gives {aud(visitor4.total)} for the family.</p>
 
@@ -105,7 +106,7 @@ const resume = `An Australian visa is paid through its visa application charge, 
     <p>Some visas ask for part of the charge only at the end. The Department sends a request when the decision is near, and the visa cannot be granted until it is paid. The payment request gives {C.secondInstalmentNoticeDaysInAustralia} days to pay for an applicant in Australia and {C.secondInstalmentNoticeDaysOther} days otherwise, under regulation 2.12D. Two kinds of second instalment exist:</p>
     <ul>
       <li><strong>English</strong>: on skilled and employer-sponsored permanent visas, each applicant aged 18 or over who does not have functional English pays a second instalment instead of proving it: {aud(V('189').second!.adultNoEnglish!)} on the 189 and 190, and {aud(V('186').second!.primaryNoEnglish!)} for a main applicant on the 186 and 494.</li>
-      <li><strong>Contribution</strong>: on the parent visas, the second instalment is the main part of the cost: {aud(V('103').second!.perApplicant!)} per applicant on the 103 and 804, {aud(V('143').second!.perApplicant!)} per adult on the 143 and 864.</li>
+      <li><strong>Contribution</strong>: on the parent visas, the second payment is the main part of the price, and on the contributory visas it is what buys the shorter queue: {aud(V('103').second!.perApplicant!)} per applicant on the 103 and 804, {aud(V('143').second!.perApplicant!)} per adult on the 143 and 864.</li>
     </ul>
     <p>The <Fragment set:html={a('second-instalment', 'second instalment page')} /> lists every visa that has one and gives the payment deadline from the day of the request.</p>
     <details class="not-prose my-4 rounded-lg border border-navy-200 px-3 py-2"><summary class="cursor-pointer text-sm font-medium text-navy-800">Show who pays a second instalment, visa by visa</summary><Fragment set:html={h.secondTable()} /></details>

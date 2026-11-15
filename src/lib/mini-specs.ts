@@ -3,14 +3,16 @@
  * no page holds a second formula.
  */
 import type { MiniSpec } from './mini-types';
-import { VISAS, visaByCode } from '../data/visas';
+import { VISAS, visaByCode, PLAIN } from '../data/visas';
 import { visaCost, addMonths, secondInstalmentDeadline, feeOf } from './engine/cost';
 import { money, dateL } from './format-l';
 import { TIMES, PARENT, months, said, rowLabel, rowIdx, TIMES_UPDATE } from './times';
 
 const clamp = (x: number, a: number, b: number) => Math.max(a, Math.min(b, x));
 const plural = (k: number, w: string) => `${k} ${k === 1 ? w : w === 'child' ? 'children' : `${w}s`}`;
-export const VISA_OPT = VISAS.map((v, i) => ({ value: String(i), label: v.name }));
+/** Visas listed by what the reader wants to do, number in brackets (test-naif 2026-11-14, tour 2); the value stays
+ *  the index in VISAS, so links and saved answers keep working. */
+export const VISA_OPT = PLAIN.map(([code, label]) => ({ value: String(VISAS.findIndex((v) => v.code === code)), label }));
 export const visaIdx = (code: string) => VISAS.findIndex((v) => v.code === code);
 const visaOf = (x: number | undefined) => VISAS[clamp(Math.round(x ?? 0), 0, VISAS.length - 1)];
 const YES_NO = [{ value: '0', label: 'No' }, { value: '1', label: 'Yes' }];
@@ -215,40 +217,52 @@ SPECS.waited = () => ({
 });
 const formatMonths = (m: number) => `${Math.round(m * 10) / 10} month${m === 1 ? '' : 's'}`;
 
-/** Parent visa queue: is a queue date released, and the Department's estimate for a new application. */
-/* Test-naif 2026-11-14: the big "7 months" (queue dates ahead) was read as 7 months of waiting, and a date worked
- * out by us ("June 2037") looked official. The big figure is now the official status of the date; the gap is
- * written as a gap between two dates, and the only estimate shown is the Department's, for a new application. */
+/** Parent visa queue: one answer, the Department's estimate of the wait for an application made now.
+ * What each figure measures (test-naif 2026-11-14, tours 1 and 2):
+ *  - `released` = the newest queue date the Department has released for final processing (a position, not a wait);
+ *  - the gap between the reader's date and `released` = months of lodgements ahead of them, NOT months to wait
+ *    (read as "7 months" or "8 years" of waiting: no longer shown);
+ *  - `newApplicationYears` = the Department's own estimate of the wait for a new application: the only duration
+ *    published, so it is the big answer, with the other queue (contributory / non-contributory) shown beside it. */
 const Q = PARENT.queue;
 const QUEUE_YEARS = Array.from({ length: 2026 - 2005 + 1 }, (_, i) => 2005 + i).map((y) => ({ value: String(y), label: String(y) }));
-const gapWords = (g: number) => { const y = Math.floor(g / 12), m = g % 12; return [y ? plural(y, 'year') : '', m ? plural(m, 'month') : ''].filter(Boolean).join(' and '); };
+const [NOW_Y, NOW_M] = PARENT.read_on.split('-').map(Number);
+const span = (g: number) => { const y = Math.floor(g / 12), m = g % 12; return [y ? plural(y, 'year') : '', m ? plural(m, 'month') : ''].filter(Boolean).join(' and ') || 'less than a month'; };
 function parentqSpec(code?: string): MiniSpec {
   const fixed = code ? Q.findIndex((q) => q.code === code) : -1;
   const qOf = (v: Record<string, number>) => Q[fixed >= 0 ? fixed : clamp(Math.round(v.q ?? 0), 0, Q.length - 1)];
   const inputs: MiniSpec['inputs'] = [];
   if (fixed < 0) inputs.push({ id: 'q', label: 'Visa', def: 0, options: Q.map((q, i) => ({ value: String(i), label: q.name })) });
   inputs.push(
-    { id: 'm', label: 'Month you applied (your queue date)', def: fixed >= 0 ? 11 : 6, options: MONTH_OPT },
-    { id: 'y', label: 'Year you applied (your queue date)', def: fixed >= 0 ? 2026 : 2019, options: QUEUE_YEARS, help: 'Not applied yet? Choose this month and year to see where a new application would start' },
+    { id: 'm', label: 'Month you applied', def: NOW_M, options: MONTH_OPT },
+    { id: 'y', label: 'Year you applied', def: NOW_Y, options: QUEUE_YEARS, help: 'Not applied yet? Leave this month and year' },
   );
   return {
-    title: code ? `When a ${code} decision could come: the parent queue` : 'Where your parent visa stands in the queue', cta: 'Parent visas compared',
-    exemple: (v) => `Example for the ${qOf(v).name} with a queue date in ${MONTHS[clamp(Math.round(v.m ?? 1), 1, 12) - 1]} ${v.y}`,
+    title: code ? `How long the ${code} queue takes` : 'How long the parent visa queue takes', cta: 'Parent visas compared',
+    exemple: (v) => {
+      const m = clamp(Math.round(v.m ?? NOW_M), 1, 12), y = Math.round(v.y ?? NOW_Y);
+      return m === NOW_M && y === NOW_Y ? `Example for a ${qOf(v).code} application made now (${MONTHS[m - 1]} ${y})` : `Example for a ${qOf(v).code} application made in ${MONTHS[m - 1]} ${y}`;
+    },
     inputs,
     run: (v) => {
       const q = qOf(v);
-      const y = Math.round(v.y ?? 2019), m = clamp(Math.round(v.m ?? 6), 1, 12);
+      const y = Math.round(v.y ?? NOW_Y), m = clamp(Math.round(v.m ?? NOW_M), 1, 12);
       const [ry, rm] = q.released.split('-').map(Number);
-      const gap = (y - ry) * 12 + (m - rm);
+      const released = (y - ry) * 12 + (m - rm) <= 0;
+      const waited = (NOW_Y - y) * 12 + (NOW_M - m);
       const years = q.contributory ? PARENT.newApplicationYears.contributory : PARENT.newApplicationYears.nonContributory;
-      const rows: Array<[string, string]> = [['Released so far', q.releasedLabel], ['Your queue date', `${MONTHS[m - 1]} ${y}`]];
-      if (gap > 0) rows.push(['Gap between the two dates', gapWords(gap)]);
-      rows.push(['Department’s estimate for an application made now', `about ${years} years`]);
+      const otherYears = q.contributory ? PARENT.newApplicationYears.nonContributory : PARENT.newApplicationYears.contributory;
+      const other = q.contributory ? 'Lower-cost Parent visa 103 or Aged Parent 804, for comparison' : 'Higher-cost Contributory Parent 143, 173 or 864, for comparison';
+      const rows: Array<[string, string]> = [];
+      if (released) rows.push(['Your application', `${MONTHS[m - 1]} ${y}: released, the decision is being made`]);
+      else rows.push(['Your application', waited > 0 ? `${MONTHS[m - 1]} ${y}: already ${span(waited)} in the queue` : `${MONTHS[m - 1]} ${y}`]);
+      rows.push(['Applications now being decided', q.releasedLabel.replace(/^Lodged\/queued/, 'Lodged or queued').replace(/^Queued/, 'Queued')]);
+      rows.push([other, `about ${otherYears} years`]);
       return {
-        head: gap <= 0 ? ['Your queue date', 'Released for final processing'] : ['Your queue date', 'Not released yet'],
-        alert: gap > 0 ? 'This is a queue, not a processing time: no decision date can be worked out from it' : undefined,
+        head: released ? ['Expected wait', 'Your turn has come'] : ['Expected wait (Department of Home Affairs estimate)', `about ${years} years`],
+        alert: !released && waited > 0 ? `This estimate is for an application made now. Yours has already waited ${span(waited)}; the Department gives no date for applications already in the queue` : undefined,
         rows,
-        note: `Department of Home Affairs, parent visa queue release dates as at ${dateL(PARENT.as_at)}. Dates are released as yearly places allow, so the gap is not a number of months to wait.`,
+        note: `Source: Department of Home Affairs, parent visa queue release dates, update as at ${dateL(PARENT.as_at)}. The queue moves only as yearly places open, so the estimate can change.`,
       };
     },
   };
@@ -276,7 +290,7 @@ SPECS.partner = () => ({
       head: [`Charge for ${plural(r.people, 'person')}`, money(r.total)], rows,
       alert: v.s === 1 && v.w === 1 ? 'The 300 is applied for outside Australia: an engaged applicant in Australia usually applies for the 820 once married or de facto' : undefined,
       note: 'Schedule 1, compilation of 1 November 2026; times from the Department of Home Affairs (update of 2 November 2026). The sponsor pays nothing.',
-      go: [`${code} visa: costs and conditions`, `/en/${slugOf(code)}/`],
+      go: [`${code} visa: costs and conditions →`, `/en/${slugOf(code)}/`],
     };
   },
 });
@@ -309,14 +323,14 @@ function costSpec(fixed?: string): MiniSpec {
   const variantOf = (v: Record<string, number>) => (fv?.variants ?? [])[Math.round(v.va ?? 0) - 1]?.id ?? '';
   const english = (v: Record<string, number>) => !!vOf(v).second?.adultNoEnglish;
   const inputs: MiniSpec['inputs'] = [];
-  if (!fv) inputs.push({ id: 'v', label: 'Visa', def: visaIdx('189'), options: VISA_OPT });
+  if (!fv) inputs.push({ id: 'v', label: 'What do you want to do?', def: visaIdx('189'), options: VISA_OPT });
   if (fv?.variants?.length) inputs.push({ id: 'va', label: 'Your situation', def: 0, options: [{ value: '0', label: 'Standard case' }, ...fv.variants.map((x, i) => ({ value: String(i + 1), label: x.label }))] });
-  if (!fv?.separate) inputs.push({ id: 'a', label: 'Partner and other adults applying with you', def: fv ? 0 : 1, max: 6, showIf: (v) => !vOf(v).separate, help: 'Family members aged 18 or over' });
+  if (!fv?.separate) inputs.push({ id: 'a', label: 'Partner and other adults applying with you', def: fv ? 0 : 1, max: 6, showIf: (v) => !vOf(v).separate, help: 'Family members aged 18 or over. An Australian sponsor does not apply and is not counted' });
   inputs.push({ id: 'c', label: fv?.separate ? 'Children travelling with you (each applies)' : 'Children under 18 applying with you', def: 0, max: 8 });
   if (!fv?.separate) inputs.push({ id: 'a2', label: 'Other adults travelling with you (each applies)', def: 0, max: 6, showIf: (v) => vOf(v).separate === true });
   if (fv?.separate) inputs.push({ id: 'a2', label: 'Other adults travelling with you (each applies)', def: 0, max: 6 });
-  inputs.push({ id: 'pe', label: 'Can you show functional English?', def: 0, options: [{ value: '0', label: 'Yes' }, { value: '1', label: 'No' }], showIf: english, help: 'The Department checks it from evidence such as an English test result. Without it, a second payment is due' });
-  inputs.push({ id: 'ne', label: 'How many of the other adults cannot show functional English?', def: 0, max: 6, showIf: (v) => english(v), help: 'Counted only up to the number of other adults above' });
+  inputs.push({ id: 'pe', label: 'Does the main applicant have proof of English (functional English)?', def: 0, options: [{ value: '0', label: 'Yes' }, { value: '1', label: 'No' }], showIf: english, help: 'For example an English test result. Without it, a second payment is due' });
+  inputs.push({ id: 'ne', label: 'How many other adults have NO proof of English?', def: 0, max: 6, showIf: (v) => english(v), help: 'A second payment is due for each of them' });
   if (!fv || fv.onshore) inputs.push({ id: 'on', label: 'Applying while in Australia', def: 0, options: YES_NO, showIf: (v) => !!vOf(v).onshore });
   if (!fv || fv.code === '870') inputs.push({ id: 'ls', label: 'Stay of up to 5 years rather than 3', def: 0, options: YES_NO, showIf: (v) => vOf(v).code === '870' });
   if (!fv || fv.pacific || fv.variants?.some((x) => x.pacific)) inputs.push({ id: 'pac', label: 'Passport of a Pacific country or Timor-Leste', def: 0, options: YES_NO, avance: true, showIf: (v) => !!vOf(v).pacific || !!vOf(v).variants?.some((x) => x.pacific) });
@@ -334,12 +348,21 @@ function costSpec(fixed?: string): MiniSpec {
       const r = visaCost({ code: visa.code, variant: variantOf(v), pacific: v.pac === 1, onshore: v.on === 1, adults: extraAdults, children: v.c, primaryNoEnglish: v.pe === 1, adultsNoEnglish: Math.min(v.ne ?? 0, extraAdults), longStay: v.ls === 1, paper: v.pp === 1 });
       const rows: Array<[string, string]> = r.lines.map((l) => [l.when === 'later' ? `${l.label} (paid later, before the visa is granted)` : l.label, money(l.amount)]);
       if (r.secondInstalment) rows.push(['Paid when you apply', money(r.firstInstalment)]);
+      /* Test-naif 2026-11-14, tour 2: the 173 total ($33,375) read as cheaper than the 143 ($49,900); the later
+       * 143 step is the same engine, 143 visa, variant "holder of a 173". */
+      let alert: string | undefined;
+      if (visa.code === '173') {
+        const later = visaCost({ code: '143', variant: 'from173', pacific: v.pac === 1, adults: extraAdults, children: v.c, paper: v.pp === 1 });
+        rows.push(['Later step, the permanent 143 for 173 holders (not in the total above)', money(later.total)]);
+        rows.push(['Whole route, 173 then 143', money(r.total + later.total)]);
+        alert = `This total is the 173 only: the permanent 143 that follows adds ${money(later.total)}, ${money(r.total + later.total)} for the whole route`;
+      }
       const out = {
         head: [r.total === 0 ? 'Charge for this visa' : `Total for ${plural(r.people, 'person')}`, r.total === 0 ? 'Free' : money(r.total)] as [string, string],
-        rows,
-        note: `Not included: card surcharges, health checks, police certificates, skills or English tests. Official charges in force on 1 November 2026 (source: Schedule 1, item ${visa.item}).`,
+        rows, alert,
+        note: `Not included: card surcharges, health checks, police certificates, skills or English tests. Official charges in force on 1 November 2026, checked on 13 November 2026 (source: Schedule 1, item ${visa.item}).`,
       };
-      return fv ? out : { ...out, go: [`${visa.short}: costs and conditions`, `/en/${slugOf(visa.code)}/`] as [string, string] };
+      return fv ? out : { ...out, go: [`${visa.short}: costs and conditions →`, `/en/${slugOf(visa.code)}/`] as [string, string] };
     },
   };
 }

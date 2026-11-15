@@ -29,6 +29,6 @@ ${h.table(TIMES_HEAD, timesRows(['309', '100', '820', '801', '300']), timesCapti
 <h2>What can lengthen a 309 file</h2>
 <ul><li>Evidence of the relationship that is thin or out of date; the Department may ask for more.</li><li>Police certificates from every country where the applicant lived, and health examinations booked late.</li><li>A move to Australia before the grant: the 309 must be granted while you are outside the country.</li></ul>
 <h2>Reading your 309 dates</h2>
-<p>The first date is when half of the applications lodged on your day would be decided at last month's pace; the second, nine in ten. Past the second date, check ImmiAccount for a request you may have missed. The ${h.a('partner-visa', 'partner visa page')} compares the routes, and the ${h.a('visa-approval-time', 'visa approval time page')} places any wait in the published bands. This site is independent of the Department of Home Affairs.</p>`,
+<p>The big date in the tool is when nine in ten applications lodged on your day would be decided at last month's pace; the smaller “Half decided by” date is when half would be. Past the big date, check ImmiAccount for a request you may have missed. The ${h.a('partner-visa', 'partner visa page')} compares the routes, and the ${h.a('visa-approval-time', 'visa approval time page')} places any wait in the published bands. This site is independent of the Department of Home Affairs.</p>`,
   },
 });

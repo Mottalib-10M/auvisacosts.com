@@ -102,7 +102,7 @@ export const VISAS: Visa[] = [
     conditions: ['A settled child in Australia who sponsors you', 'The second instalment is the largest charge of any Australian visa', 'A cheaper first charge for holders of a 173 visa'] },
   { code: '173', name: 'Contributory Parent (Temporary) visa (subclass 173)', short: '173 visa', item: '1221 (Class UT)', family: 'parent', std: F(4245, 2125, 1065), pacific: F(3480, 1740, 875),
     second: { perApplicant: 29130, perChild: 2095 }, permanent: false, stay: '2 years', where: 'Outside Australia',
-    conditions: ['A settled child in Australia who sponsors you', 'Spreads the contributory parent cost over two applications', 'A 143 application later costs $555 plus $19,420 per adult'] },
+    conditions: ['A settled child in Australia who sponsors you', 'You apply from outside Australia', 'A temporary stay of 2 years, during which you can apply for the permanent 143'] },
   { code: '864', name: 'Contributory Aged Parent visa (subclass 864)', short: '864 visa', item: '1130A (Class DG)', family: 'parent', std: F(6300, 3145, 1580), pacific: F(5170, 2580, 1295),
     variants: [{ id: 'from884', label: 'Holder of a Contributory Aged Parent (Temporary) 884 visa', fee: F(555, 280, 135), pacific: F(455, 230, 110), note: 'Second instalment $19,420 for each adult', secondPerAdult: 19420 }],
     second: { perApplicant: 43600, perChild: 2095 }, permanent: true, where: 'In Australia',
@@ -136,3 +136,38 @@ export const VISAS: Visa[] = [
     conditions: ['Hold a bridging visa A or B', 'An application for a substantive visa or a judicial review in progress', 'Family members included in the application pay nothing more'] },
 ];
 export const visaByCode = (c: string) => VISAS.find((v) => v.code === c)!;
+/** What the reader wants to do, in plain words, with the number in brackets, in the order of the home page
+ *  "Which visa?" cards (test-naif 2026-11-14, tour 2: "to choose my visa I must know its number"). Each wording
+ *  restates the home card or the visa's own conditions above; it adds no fact. */
+export const PLAIN: Array<[string, string]> = [
+  ['820', 'Join my partner, already in Australia (820 and 801)'],
+  ['309', 'Bring my partner from outside Australia (309 and 100)'],
+  ['300', 'Come to Australia to marry my fiancé(e) (300)'],
+  ['143', 'Bring my parents: higher cost, shorter queue (143)'],
+  ['173', 'Bring my parents in two steps, temporary first (173)'],
+  ['103', 'Bring my parents: lower cost, far longer queue (103)'],
+  ['804', 'Parents of pension age, in Australia (804)'],
+  ['864', 'Parents of pension age, in Australia: higher cost, shorter queue (864)'],
+  ['870', 'My parents stay up to 3 or 5 years, not permanent (870)'],
+  ['101', 'Bring my child (101 and 802)'],
+  ['600', 'Visit Australia: visitor visa (600)'],
+  ['601', 'Visit Australia: ETA, some passports (601)'],
+  ['651', 'Visit Australia: eVisitor, some passports (651)'],
+  ['417', 'Working holiday, ages 18 to 35 (417)'],
+  ['462', 'Work and holiday, partner countries (462)'],
+  ['500', 'Study in Australia (500)'],
+  ['485', 'Stay and work after my studies (485)'],
+  ['482', 'Work for an Australian employer, temporary (482)'],
+  ['186', 'Work for an Australian employer, permanent (186)'],
+  ['494', 'Work for an employer in regional Australia (494)'],
+  ['400', 'Short specialist work, up to 6 months (400)'],
+  ['408', 'A specific temporary activity (408)'],
+  ['189', 'Skilled worker, no sponsor (189)'],
+  ['190', 'Skilled worker, state nominated (190)'],
+  ['491', 'Skilled worker, regional (491)'],
+  ['191', 'Permanent visa after the regional 491 (191)'],
+  ['858', 'National Innovation, on invitation (858)'],
+  ['155', 'Travel back as a permanent resident (155)'],
+  ['020', 'Leave and come back while a visa is decided (bridging visa B, 020)'],
+];
+export const plainOf = (c: string) => PLAIN.find(([k]) => k === c)?.[1];
